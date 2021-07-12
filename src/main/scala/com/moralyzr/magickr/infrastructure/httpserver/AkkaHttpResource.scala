@@ -40,6 +40,6 @@ object AkkaHttpResource {
     routes: Route,
     actorsResource: ActorsSystemResource,
   ) =
-    logger.info(s"Starting HTTP server at ${akkaHttpConfig.host()}:${akkaHttpConfig.port()}/")
+    logger.info(s"Starting HTTP server at ${akkaHttpConfig.host()}:${akkaHttpConfig.port()}.")
     Resource.make(IO.pure(new AkkaHttpResource(akkaHttpConfig, routes, actorsResource)))(_.close())
 }
