@@ -8,4 +8,6 @@ trait DatabaseConfig {
   def user(): String
 
   def password(): String
+
+  def poolSize(): Int
 }
