@@ -1,13 +1,27 @@
 package com.moralyzr.magickr.infrastructure.database
 
-trait DatabaseConfig {
-  def className(): String
+import cats.effect.IO
+import cats.effect.kernel.Resource
+import com.moralyzr.magickr.infrastructure.httpserver.AkkaHttpConfig
+import com.typesafe.config.Config
 
-  def url(): String
+class DatabaseConfig(val config: Config) {
+  def className(): String =
+    config.getString("server.database.class-name")
 
-  def user(): String
+  def url(): String =
+    config.getString("server.database.url")
 
-  def password(): String
+  def user(): String =
+    config.getString("server.database.user")
 
-  def poolSize(): Int
+  def password(): String =
+    config.getString("server.database.password")
+
+  def poolSize(): Int =
+    config.getInt("server.database.pool-size")
 }
+
+object DatabaseConfig:
+  def apply(config: Config): Resource[IO, DatabaseConfig] =
+    Resource.make(IO(new DatabaseConfig(config)))(_ => IO.unit)

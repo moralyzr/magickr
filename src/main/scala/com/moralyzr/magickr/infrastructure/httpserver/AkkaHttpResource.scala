@@ -31,10 +31,12 @@ object AkkaHttpResource:
     materializer: Materializer,
   ) = IO {
     logger.info(s"Starting HTTP server at ${akkaHttpConfig.host()}:${akkaHttpConfig.port()}.")
-    Http()
+    val http = Http()
       .newServerAt(akkaHttpConfig.host(), akkaHttpConfig.port())
       .withMaterializer(materializer)
       .bind(routes)
+    logger.info(s"The application is ready and is listening at http://${akkaHttpConfig.host()}:${akkaHttpConfig.port()}.")
+    http
   }
 
   private def stopHttp()(implicit actorSystem: ActorSystem) = (server: Future[Http.ServerBinding]) => IO {

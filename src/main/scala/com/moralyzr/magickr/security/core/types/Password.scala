@@ -4,7 +4,7 @@ import com.github.t3hnar.bcrypt.*
 import scala.util.matching.Regex
 
 trait PasswordConfig:
-  def salt: String
+  def rounds: Int
 
 object PasswordType:
   opaque type Password = String
@@ -12,9 +12,9 @@ object PasswordType:
 
   def fromString(password: String)(
     implicit config: PasswordConfig = new PasswordConfig {
-    override def salt: String = ""
+    override def rounds: Int = 5
   }
   ): Password = bcryptPattern.findFirstMatchIn(password) match {
     case Some(_) => password
-    case None    => password.bcryptBounded(config.salt)
+    case None    => password.bcryptBounded(config.rounds)
   }

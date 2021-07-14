@@ -12,4 +12,3 @@ class AkkaHttpConfig private(val config: Config):
 object AkkaHttpConfig:
   def apply(config: Config): Resource[IO, AkkaHttpConfig] =
     Resource.make(IO(new AkkaHttpConfig(config)))(_ => IO.unit)
-
