@@ -40,6 +40,7 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion,
     "com.github.jwt-scala" %% "jwt-circe" % "8.0.2",
     "com.github.t3hnar" %% "scala-bcrypt" % "4.3.0",
+    "org.scalamock" %% "scalamock" % "5.1.0" % "test",
     "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion % "test"
   ).map(_.cross(CrossVersion.for3Use2_13))
 }

@@ -6,5 +6,5 @@ import com.moralyzr.magickr.security.core.models.User
 import com.moralyzr.magickr.security.core.types.EmailType.Email
 import com.moralyzr.magickr.security.core.types.PasswordType.Password
 
-trait FindUserWithCredentials:
-  def withCredentials(email: Email, password: Password): IO[Option[User]]
+trait FindUser:
+  def withEmail(email: Email): OptionT[IO, User]

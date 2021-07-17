@@ -4,7 +4,7 @@ import cats.data.EitherT
 import cats.effect.IO
 import com.moralyzr.magickr.security.core.errors.AuthError
 import com.moralyzr.magickr.security.core.types.EmailType.Email
-import com.moralyzr.magickr.security.core.types.TokenType.*
+import com.moralyzr.magickr.security.core.types.TokenType._
 
 
 trait LoginUserByCredentials:
