@@ -13,7 +13,6 @@ import com.moralyzr.magickr.infrastructure.database.doobie.DatabaseConnection
 import com.moralyzr.magickr.infrastructure.httpserver.{AkkaHttpConfig, AkkaHttpResource}
 import com.moralyzr.magickr.security.adapters.userdata.database.UserRepository
 
-import javax.swing.plaf.ColorUIResource
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
