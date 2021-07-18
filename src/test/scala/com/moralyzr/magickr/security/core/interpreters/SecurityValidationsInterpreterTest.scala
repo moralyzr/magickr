@@ -1,8 +1,8 @@
 package com.moralyzr.magickr.security.core.interpreters
 
+import com.moralyzr.magickr.security.core.errors.AuthError
 import com.moralyzr.magickr.security.core.types.PasswordType
 import org.scalatest.flatspec.AnyFlatSpec
-import com.moralyzr.magickr.security.core.errors.AuthError
 
 class SecurityValidationsInterpreterTest extends AnyFlatSpec {
   behavior of "The Password security validation"

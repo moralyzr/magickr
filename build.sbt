@@ -27,6 +27,7 @@ libraryDependencies ++= {
     "org.tpolecat" %% "doobie-core" % doobieVersion,
     "org.tpolecat" %% "doobie-hikari"    % doobieVersion,
     "org.tpolecat" %% "doobie-postgres"  % doobieVersion,
+    "org.flywaydb" % "flyway-core" % "7.11.2",
     "ch.qos.logback" % "logback-classic" % "1.2.3",
     "com.typesafe.scala-logging" %% "scala-logging" % "3.9.4",
     "org.ekrich" %% "sconfig" % "1.4.4",

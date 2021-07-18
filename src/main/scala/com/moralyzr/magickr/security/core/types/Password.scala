@@ -1,6 +1,7 @@
 package com.moralyzr.magickr.security.core.types
 
 import com.github.t3hnar.bcrypt.*
+
 import scala.util.matching.Regex
 
 trait PasswordConfig:

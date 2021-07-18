@@ -1,10 +1,8 @@
 package com.moralyzr.magickr.infrastructure.database.doobie.implicits
 
 import com.typesafe.scalalogging.Logger
-import doobie.util.log.LogHandler
+import doobie.util.log.{ExecFailure, LogHandler, ProcessingFailure, Success}
 import org.slf4j.LoggerFactory
-
-import doobie.util.log.{Success, ProcessingFailure, ExecFailure}
 
 implicit val slf4jLogHandler: LogHandler =
   val logger: Logger = Logger(LoggerFactory.getLogger("DoobieSql"))

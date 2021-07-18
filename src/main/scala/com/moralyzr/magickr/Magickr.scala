@@ -20,15 +20,18 @@ import scala.concurrent.duration.Duration
 object Magickr extends IOApp :
 
   override def run(args: List[String]): IO[ExitCode] =
+    import com.moralyzr.magickr.infrastructure.database.flyway.{DbMigrations, FlywayConfig}
     val server = for {
       // Configs
       configs <- MagickrConfigs.makeConfigs()
       httpConfigs <- AkkaHttpConfig(configs)
       databaseConfigs <- DatabaseConfig(configs)
+      flywayConfigs <- FlywayConfig(configs)
       // Actors
       actorsSystem <- ActorsSystemResource.makeActorSystem()
       streamMaterializer <- ActorsSystemResource.makeActorsMaterializer(actorsSystem)
       // Database
+      _ <- DbMigrations.migrateResource(flywayConfigs, databaseConfigs)
       transactor <- DatabaseConnection.makeTransactor(databaseConfigs)
       userRepository <- UserRepository(transactor)
       // Api

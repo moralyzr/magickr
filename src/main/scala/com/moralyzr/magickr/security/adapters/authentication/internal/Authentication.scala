@@ -1,16 +1,14 @@
 package com.moralyzr.magickr.security.adapters.authentication.internal
 
-import cats.data.EitherT
+import cats.data.{EitherT, *}
 import cats.effect.IO
+import cats.{Functor, Monad}
+import cats.syntax.functor.*
+import com.moralyzr.magickr.security.core.errors.AuthError
 import com.moralyzr.magickr.security.core.models.User
 import com.moralyzr.magickr.security.core.ports.outgoing.{AuthenticateUser, FindUser}
 import com.moralyzr.magickr.security.core.types.EmailType.Email
 import com.moralyzr.magickr.security.core.types.PasswordType.Password
-import cats.data.*
-import cats.Functor
-import cats.Monad
-import cats.syntax.functor.*
-import com.moralyzr.magickr.security.core.errors.AuthError
 import com.moralyzr.magickr.security.core.validations.PasswordValidationAlgebra
 
 class Authentication(val findUser: FindUser, val passwordValidation: PasswordValidationAlgebra) extends AuthenticateUser :

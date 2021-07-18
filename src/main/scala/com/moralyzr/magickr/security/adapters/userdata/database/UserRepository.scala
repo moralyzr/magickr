@@ -7,12 +7,11 @@ import com.moralyzr.magickr.security.core.models.User
 import com.moralyzr.magickr.security.core.ports.outgoing.FindUser
 import com.moralyzr.magickr.security.core.types.EmailType.Email
 import com.moralyzr.magickr.security.core.types.PasswordType.Password
-import com.moralyzr.magickr.security.core.types.implicits._
+import com.moralyzr.magickr.security.core.types.implicits.*
 import doobie.free.connection.ConnectionIO
+import doobie.implicits.{toConnectionIOOps, toSqlInterpolator}
 import doobie.util.query.Query0
 import doobie.util.transactor.Transactor
-import doobie.implicits.toConnectionIOOps
-import doobie.implicits.toSqlInterpolator
 
 private object UserSql:
   def findUserWithEmail(email: Email): Query0[User] =
