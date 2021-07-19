@@ -10,7 +10,7 @@ scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 libraryDependencies ++= {
   val akkaVersion = "2.6.15"
   val akkaHttpVersion = "10.2.4"
-  val akkaHttpCirceVersion = "1.36.0"
+  val akkaHttpCirceVersion = "1.37.0"
   val catsVersion = "2.6.1"
   val catsEffectVersion = "3.1.1"
   val circeVersion = "0.14.1"
@@ -51,10 +51,8 @@ libraryDependencies ++= {
   ).map(_.cross(CrossVersion.for3Use2_13))
 }
 
-lazy val generated = project.in(file("generated"))
-  .settings(
-    openApiInputSpec := s"${System.getProperty("user.dir")}/src/main/resources/api.yaml",
-    openApiGeneratorName := "scala-akka",
-  )
+//Compile / guardrailTasks := List(
+//  ScalaServer(file("src/main/resources/api.yaml"), pkg="com.moralyzr.magickr.adapters.gen", tracing=true)
+//)
 
 Revolver.settings
