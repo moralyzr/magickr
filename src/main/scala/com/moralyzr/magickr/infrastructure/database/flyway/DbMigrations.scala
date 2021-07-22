@@ -17,11 +17,8 @@ import scala.jdk.CollectionConverters._
 object DbMigrations:
   private lazy val logger: Logger = Logger(LoggerFactory.getLogger(this.getClass.getName))
 
-  def migrateResource(flywayConfig: FlywayConfig, databaseConfig: DatabaseConfig): Resource[IO, MigrationResult] =
-    Resource.make(migrate(flywayConfig, databaseConfig))(_ => IO.unit)
-
-  def migrate(flywayConfig: FlywayConfig, databaseConfig: DatabaseConfig): IO[MigrationResult] =
-    Sync[IO].delay {
+  def migrate[F[_] : Sync](flywayConfig: FlywayConfig, databaseConfig: DatabaseConfig) =
+    Sync[F].delay {
       val flyway = buildFlyway(flywayConfig, databaseConfig)
       logger.info(s"Running Flyway migrations at ${flywayConfig.migrationsLocations.mkString(",")}")
       runMigration(flyway)

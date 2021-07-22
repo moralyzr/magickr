@@ -1,19 +1,20 @@
 package com.moralyzr.magickr.infrastructure.database.flyway
 
 import cats.effect.IO
-import cats.effect.kernel.Resource
+import cats.effect.kernel.{Resource, Sync}
 import com.typesafe.config.Config
-import scala.jdk.CollectionConverters._
 
-case class FlywayConfig private(
+import scala.jdk.CollectionConverters.*
+
+case class FlywayConfig(
   migrationsTable: String,
   migrationsLocations: List[String],
 )
 
 object FlywayConfig:
-  def apply(config: Config): Resource[IO, FlywayConfig] =
-    val flywayConfig = new FlywayConfig(
+  def apply[F[_] : Sync](config: Config) = Sync[F].delay {
+    new FlywayConfig(
       migrationsTable = config.getString("server.database.flyway.migrations-table"),
       migrationsLocations = config.getStringList("server.database.flyway.migration-paths").asScala.toList,
     )
-    Resource.make(IO.pure(flywayConfig))(_ => IO.unit)
+  }

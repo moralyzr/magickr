@@ -1,11 +1,11 @@
 package com.moralyzr.magickr.infrastructure.database
 
 import cats.effect.IO
-import cats.effect.kernel.Resource
+import cats.effect.kernel.{Resource, Sync}
 import com.moralyzr.magickr.infrastructure.httpserver.AkkaHttpConfig
 import com.typesafe.config.Config
 
-final case class DatabaseConfig private(
+final case class DatabaseConfig(
   className: String,
   url: String,
   user: String,
@@ -14,12 +14,13 @@ final case class DatabaseConfig private(
 )
 
 object DatabaseConfig:
-  def apply(config: Config): Resource[IO, DatabaseConfig] =
-    val databaseConfig = new DatabaseConfig(
+  def apply[F[_] : Sync](config: Config) = Sync[F].delay {
+    new DatabaseConfig(
       className = config.getString("server.database.class-name"),
       url = config.getString("server.database.url"),
       user = config.getString("server.database.user"),
       password = config.getString("server.database.password"),
       poolSize = config.getInt("server.database.pool-size")
     )
-    Resource.make(IO.pure(databaseConfig))(_ => IO.unit)
+  }
+

@@ -1,14 +1,18 @@
 package com.moralyzr.magickr.infrastructure.httpserver
 
 import cats.effect.IO
-import cats.effect.kernel.Resource
+import cats.effect.kernel.{Resource, Sync}
 import com.typesafe.config.Config
 
-class AkkaHttpConfig private(val config: Config):
-  def host(): String = config.getString("server.http.host")
-
-  def port(): Int = config.getInt("server.http.port")
+final case class AkkaHttpConfig(
+  host: String,
+  port: Int,
+)
 
 object AkkaHttpConfig:
-  def apply(config: Config): Resource[IO, AkkaHttpConfig] =
-    Resource.make(IO(new AkkaHttpConfig(config)))(_ => IO.unit)
+  def apply[F[_] : Sync](config: Config) = Sync[F].delay {
+    new AkkaHttpConfig(
+      host = config.getString("server.http.host"),
+      port = config.getInt("server.http.port"),
+    )
+  }

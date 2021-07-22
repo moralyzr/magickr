@@ -1,5 +1,6 @@
-package com.moralyzr.magickr.security.adapters.jwt.internal
+package com.moralyzr.magickr.security.adapters.output.internal
 
+import com.moralyzr.magickr.security.adapters.output.security.internal.JwtBuilder
 import com.moralyzr.magickr.security.core.types.{EmailType, JwtConfig, TokenType}
 import com.moralyzr.magickr.security.core.types.TokenType.Token
 import org.scalatest.flatspec.AnyFlatSpec

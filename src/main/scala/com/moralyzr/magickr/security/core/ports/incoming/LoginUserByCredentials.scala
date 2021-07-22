@@ -6,11 +6,10 @@ import com.moralyzr.magickr.security.core.errors.AuthError
 import com.moralyzr.magickr.security.core.types.EmailType.Email
 import com.moralyzr.magickr.security.core.types.TokenType.*
 
-
 trait LoginUserByCredentials:
   def login(command: LoginUserByCredentialsCommand): EitherT[IO, AuthError, Token]
 
-case class LoginUserByCredentialsCommand(
+final case class LoginUserByCredentialsCommand(
   val email: Email,
   val password: String,
 )

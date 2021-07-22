@@ -1,6 +1,6 @@
-package com.moralyzr.magickr.security.adapters.authentication.internal
+package com.moralyzr.magickr.security.adapters.output.internal
 
-import com.moralyzr.magickr.security.adapters.jwt.internal.JwtBuilder
+import com.moralyzr.magickr.security.adapters.output.security.internal.{InternalAuthentication, JwtBuilder}
 import com.moralyzr.magickr.security.core.interpreters.SecurityValidationsInterpreter
 import com.moralyzr.magickr.security.core.models.User
 import com.moralyzr.magickr.security.core.ports.outgoing.FindUser
