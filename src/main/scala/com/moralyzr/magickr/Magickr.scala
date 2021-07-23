@@ -35,12 +35,11 @@ object Magickr extends IOApp :
       databaseConfigs <- Resource.eval(DatabaseConfig[IO](configs))
       flywayConfigs <- Resource.eval(FlywayConfig[IO](configs))
       jwtConfig <- Resource.eval(JwtConfig[IO](configs))
-
       // Interpreters
       jwtManager <- Resource.eval(JwtBuilder[IO](jwtConfig))
       authentication = InternalAuthentication[IO](passwordValidationAlgebra = SecurityValidationsInterpreter, jwtManager = jwtManager)
       // Database
-      _ = DbMigrations.migrate[IO](flywayConfigs, databaseConfigs)
+      _ <- Resource.eval(DbMigrations.migrate[IO](flywayConfigs, databaseConfigs))
       transactor <- DatabaseConnection.makeTransactor[IO](databaseConfigs)
       userRepository = UserRepository[IO](transactor)
       // Services

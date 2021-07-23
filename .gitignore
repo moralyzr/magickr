@@ -171,4 +171,15 @@ gradle-app.setting
 
 .bsp
 
+## Bloop 
+.bloop
+
+## Metals
+.metals
+project/metals.sbt
+project/project
+
+## VsCode
+.vscode
+
 # End of https://www.toptal.com/developers/gitignore/api/scala,java,intellij+all,sbt,maven,gradle

@@ -18,7 +18,7 @@ object DbMigrations:
   private lazy val logger: Logger = Logger(LoggerFactory.getLogger(this.getClass.getName))
 
   def migrate[F[_] : Sync](flywayConfig: FlywayConfig, databaseConfig: DatabaseConfig) =
-    Sync[F].delay {
+    Sync[F].blocking {
       val flyway = buildFlyway(flywayConfig, databaseConfig)
       logger.info(s"Running Flyway migrations at ${flywayConfig.migrationsLocations.mkString(",")}")
       runMigration(flyway)

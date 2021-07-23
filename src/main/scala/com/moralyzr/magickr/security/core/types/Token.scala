@@ -4,7 +4,7 @@ import com.typesafe.config.Config
 import cats.effect.IO
 import cats.effect.kernel.Sync
 
-final case class JwtConfig private(
+final case class JwtConfig(
   algorithm: String,
   expirationTime: Int,
   key: String,
