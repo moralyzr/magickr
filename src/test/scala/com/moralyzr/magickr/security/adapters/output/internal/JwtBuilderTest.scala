@@ -10,29 +10,35 @@ import com.moralyzr.magickr.security.core.types.TokenType.Token
 import org.scalatest.flatspec.AnyFlatSpec
 import pdi.jwt.JwtAlgorithm
 import cats.effect.kernel.Sync
+import cats.effect.kernel.Resource
+import cats.effect.IO
+import cats.data.EitherT
+import org.scalatest.matchers.should.Matchers.shouldBe
+import scala.concurrent.duration._
+import cats.effect.unsafe.implicits.global
+import pdi.jwt.JwtCirce
+import pdi.jwt.JwtClaim
 
-// class JwtBuilderTest[F[_] : Sync] extends AnyFlatSpec {
-//   behavior of "The Internal Jwt Builder"
+class JwtBuilderTest extends AnyFlatSpec {
+  behavior of "The Internal Jwt Builder"
 
-//   private val jwtConfig = new JwtConfig(
-//     algorithm = JwtAlgorithm.HS256.name,
-//     expirationTime = 60,
-//     key = "jwtKey",
-//     issuer = "local"
-//   )
+  private val jwtConfig = new JwtConfig(
+    algorithm = JwtAlgorithm.HS256.name,
+    expirationTime = 60,
+    key = "jwtKey",
+    issuer = "local"
+  )
 
-//   it should "generate a valid Jwt Token based on configurations" in {
-//     val jwtBuilder = JwtBuilder[F](jwtConfig)
+  private val jwtBuilder = JwtBuilder[IO](jwtConfig)
 
-//     val tokenResult =
-//       jwtBuilder.generate(userEmail = EmailType.fromString("test@test.com"))
+  it should "generate a valid Jwt Token based on configurations" in {
+    val generatedToken =
+      jwtBuilder.generate(EmailType.fromString("a@a.com")).getOrElse(null)
 
-//     assert(tokenResult.isRight)
-//     assert(
-//       tokenResult.getOrElse(TokenType.fromString("")) != TokenType.fromString(
-//         ""
-//       )
-//     )
-//   }
+    val decodedToken = JwtCirce
+      .decode(generatedToken.toString, jwtConfig.key, Seq(JwtAlgorithm.HS256))
+      .get
 
-// }
+    decodedToken.issuer shouldBe Some(jwtConfig.issuer)
+  }
+}

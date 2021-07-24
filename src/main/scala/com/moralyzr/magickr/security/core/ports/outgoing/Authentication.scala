@@ -10,4 +10,4 @@ import com.moralyzr.magickr.security.core.types.PasswordType.Password
 import com.moralyzr.magickr.security.core.types.TokenType.Token
 
 trait Authentication[F[_]]:
-  def forUser(user: User, password: String): Either[AuthError, Token]
+  def forUser(user: User, password: String): EitherT[F, AuthError, Token]

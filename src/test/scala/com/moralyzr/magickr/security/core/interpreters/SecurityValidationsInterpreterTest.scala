@@ -7,11 +7,13 @@ import org.scalatest.flatspec.AnyFlatSpec
 class SecurityValidationsInterpreterTest extends AnyFlatSpec {
   behavior of "The Password security validation"
 
+  private val interpreter = new SecurityValidationsInterpreter()
+
   it should "validate a success if the password match the hash" in {
     val plainPassword = "plain-password"
     val hashedPassword = PasswordType.fromString(plainPassword)
 
-    val result = SecurityValidationsInterpreter.invalidPassword(plainPassword, hashedPassword)
+    val result = interpreter.invalidPassword(plainPassword, hashedPassword)
 
     assert(result.isRight)
   }
@@ -20,7 +22,7 @@ class SecurityValidationsInterpreterTest extends AnyFlatSpec {
     val plainPassword = "plain-password"
     val hashedPassword = PasswordType.fromString("another-password")
 
-    val result = SecurityValidationsInterpreter.invalidPassword(plainPassword, hashedPassword)
+    val result = interpreter.invalidPassword(plainPassword, hashedPassword)
 
     assert(result.isLeft)
     assert(result.left.exists(e => e.equals(AuthError.InvalidCredentials)))

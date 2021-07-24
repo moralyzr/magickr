@@ -24,6 +24,5 @@ class JwtBuilder[F[_] : Sync](val jwtConfig: JwtConfig) extends JwtManager[F] :
     Right(TokenType.fromString(token))
 
 object JwtBuilder:
-  def apply[F[_] : Sync](jwtConfig: JwtConfig) = Sync[F].delay {
+  def apply[F[_] : Sync](jwtConfig: JwtConfig) = 
     new JwtBuilder[F](jwtConfig)
-  }

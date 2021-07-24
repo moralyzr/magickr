@@ -12,10 +12,10 @@ class SecurityManagement[F[_] : Async](
   private val findUser: FindUser[F],
   private val authentication: Authentication[F],
 ):
-  def loginWithCredentials(command: LoginUserByCredentialsCommand)(): EitherT[F, AuthError, Token] =
+  def loginWithCredentials(command: LoginUserByCredentialsCommand): EitherT[F, AuthError, Token] =
     for {
       user <- findUser.withEmail(command.email).toRight(AuthError.UserNotFound)
-      token <- EitherT.fromEither(authentication.forUser(user, command.password))
+      token <- authentication.forUser(user, command.password)
     } yield token
 
 object SecurityManagement:

@@ -4,7 +4,6 @@ import cats.effect.IO
 import cats.effect.kernel.{Resource, Sync}
 import com.moralyzr.magickr.infrastructure.database.DatabaseConfig
 import com.moralyzr.magickr.infrastructure.httpserver.AkkaHttpConfig
-import com.moralyzr.magickr.security.core.types.PasswordConfig
 import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.sslconfig.util.ConfigLoader
 

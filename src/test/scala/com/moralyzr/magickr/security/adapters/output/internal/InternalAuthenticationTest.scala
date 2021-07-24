@@ -20,51 +20,59 @@ import com.moralyzr.magickr.security.core.errors.AuthError
 import cats.effect.kernel.Sync
 
 import java.time.LocalDate
+import cats.effect.IO
+import cats.effect.unsafe.implicits.global
+import org.scalatest.matchers.should.Matchers.*
 
-// class InternalAuthenticationTest[F[_] : Sync] extends AnyFlatSpec:
-//   behavior of "The embedded authentication mechanism"
+class InternalAuthenticationTest extends AnyFlatSpec:
+  behavior of "The embedded authentication mechanism"
 
-//   private val jwtConfig = new JwtConfig(
-//     algorithm = JwtAlgorithm.HS256.name,
-//     expirationTime = 60,
-//     key = "jwtKey",
-//     issuer = "local"
-//   )
+  private val jwtConfig = new JwtConfig(
+    algorithm = JwtAlgorithm.HS256.name,
+    expirationTime = 60,
+    key = "jwtKey",
+    issuer = "local"
+  )
 
-//   private val passwordValidationAlgebra = SecurityValidationsInterpreter
-//   private val jwtBuilder = JwtBuilder[F](jwtConfig)
-//   private val internalAuthentication = InternalAuthentication[F](
-//     passwordValidation = passwordValidationAlgebra,
-//     jwtManager = jwtBuilder
-//   )
+  private val passwordValidationAlgebra = new SecurityValidationsInterpreter()
+  private val jwtBuilder = JwtBuilder[IO](jwtConfig)
+  private val internalAuthentication = InternalAuthentication[IO](
+    passwordValidationAlgebra = passwordValidationAlgebra,
+    jwtManager = jwtBuilder
+  )
 
-//   it should "return a token if the user password matches" in {
-//     val user = User(
-//       name = "Test",
-//       lastName = "Tester",
-//       email = EmailType.fromString("a@a.com"),
-//       password = PasswordType.fromString("test"),
-//       active = true,
-//       birthDate = LocalDate.now()
-//     )
+  it should "return a token if the user password matches" in {
+    val user = User(
+      name = "Test",
+      lastName = "Tester",
+      email = EmailType.fromString("a@a.com"),
+      password = PasswordType.fromString("test"),
+      active = true,
+      birthDate = LocalDate.now()
+    )
 
-//     val auth = internalAuthentication.forUser(user = user, password = "test")
+    val result = internalAuthentication
+      .forUser(user = user, password = "test")
+      .value
+      .unsafeRunSync()
 
-//     assert(auth.isRight)
-//   }
+    result.isRight shouldBe true
+  }
 
-//   it should "return a failure if the password does not matches" in {
-//     val user = User(
-//       name = "Test",
-//       lastName = "Tester",
-//       email = EmailType.fromString("a@a.com"),
-//       password = PasswordType.fromString("test"),
-//       active = true,
-//       birthDate = LocalDate.now()
-//     )
+  it should "return a failure if the password does not matches" in {
+    val user = User(
+      name = "Test",
+      lastName = "Tester",
+      email = EmailType.fromString("a@a.com"),
+      password = PasswordType.fromString("test"),
+      active = true,
+      birthDate = LocalDate.now()
+    )
 
-//     val auth = internalAuthentication.forUser(user = user, password = "test2")
+    val result = internalAuthentication
+      .forUser(user = user, password = "test2")
+      .value
+      .unsafeRunSync()
 
-//     assert(auth.isLeft)
-//     assert(auth.left.exists(error => error == AuthError.InvalidCredentials))
-//   }
+    result.isLeft shouldBe true  
+  }

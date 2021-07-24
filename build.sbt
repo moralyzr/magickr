@@ -3,7 +3,7 @@ enablePlugins(JavaAppPackaging)
 name := "magickr"
 organization := "com.moralyzr"
 version := "0.0.1"
-scalaVersion := "3.0.0"
+scalaVersion := "3.0.1"
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 
@@ -17,7 +17,7 @@ libraryDependencies ++= {
   val doobieVersion = "1.0.0-M5"
   val flywayVersion = "7.11.2"
   val jwtCirceVersion = "8.0.2"
-  val logbackVersion = "1.2.3"
+  val logbackVersion = "1.2.4"
   val scalaBcryptVersion = "4.3.0"
   val scalaTestVersion = "3.2.9"
   val scalaLoggingVersion = "3.9.4"

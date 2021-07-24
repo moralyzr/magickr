@@ -7,8 +7,11 @@ import com.moralyzr.magickr.security.core.errors.AuthError
 import com.moralyzr.magickr.security.core.types.PasswordType.Password
 import com.moralyzr.magickr.security.core.validations.PasswordValidationAlgebra
 
-object SecurityValidationsInterpreter extends PasswordValidationAlgebra :
-  override def invalidPassword(password: String, existingPassword: Password): Either[AuthError, Unit] =
+class SecurityValidationsInterpreter extends PasswordValidationAlgebra:
+  override def invalidPassword(
+      password: String,
+      existingPassword: Password
+  ): Either[AuthError, Unit] =
     password.isBcryptedBounded(existingPassword.toString) match {
       case true  => Right(())
       case false => Left(AuthError.InvalidCredentials)
