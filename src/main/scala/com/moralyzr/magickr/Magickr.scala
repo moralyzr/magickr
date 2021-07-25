@@ -45,10 +45,10 @@ object Magickr extends IOApp:
       streamMaterializer <- AkkaMaterializerResource[IO](actorsSystem)
       // Configs
       configs <- Resource.eval(MagickrConfigs.makeConfigs[IO]())
-      httpConfigs <- Resource.eval(AkkaHttpConfig[IO](configs))
-      databaseConfigs <- Resource.eval(DatabaseConfig[IO](configs))
-      flywayConfigs <- Resource.eval(FlywayConfig[IO](configs))
-      jwtConfig <- Resource.eval(JwtConfig[IO](configs))
+      httpConfigs = AkkaHttpConfig[IO](configs)
+      databaseConfigs = DatabaseConfig[IO](configs)
+      flywayConfigs = FlywayConfig[IO](configs)
+      jwtConfig = JwtConfig[IO](configs)
       // Interpreters
       jwtManager = JwtBuilder[IO](jwtConfig)
       authentication = InternalAuthentication[IO](

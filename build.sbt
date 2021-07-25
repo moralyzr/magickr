@@ -39,6 +39,7 @@ libraryDependencies ++= {
     "org.ekrich" %% "sconfig" % sconfigVersion,
     "org.scalactic" %% "scalactic" % scalaTestVersion,
     "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
+    "org.tpolecat" %% "doobie-h2" % doobieVersion % "test"
   ) ++ Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.typesafe.akka" %% "akka-stream" % akkaVersion,

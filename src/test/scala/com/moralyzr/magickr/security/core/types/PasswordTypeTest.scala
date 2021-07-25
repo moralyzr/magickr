@@ -12,7 +12,8 @@ class PasswordTypeTest extends AnyFlatSpec {
   }
 
   it should "not Convert the string to a BCrypt password if the String is already hashed" in {
-    val alreadyHashed = "$2a$05$UAirNV.N3I4PHgLYD1fX5epQnkpodzLs/ZIdFeYmZ4KzdDfPbLMnG"
+    val alreadyHashed =
+      "$2a$05$UAirNV.N3I4PHgLYD1fX5epQnkpodzLs/ZIdFeYmZ4KzdDfPbLMnG"
 
     val password = PasswordType.fromString(alreadyHashed)
 
