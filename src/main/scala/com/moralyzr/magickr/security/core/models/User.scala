@@ -6,6 +6,7 @@ import com.moralyzr.magickr.security.core.types.PasswordType.Password
 import java.time.LocalDate
 
 case class User(
+  val id: Long,
   val name: String,
   val lastName: String,
   val email: Email,

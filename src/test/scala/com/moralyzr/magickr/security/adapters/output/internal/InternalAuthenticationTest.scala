@@ -43,6 +43,7 @@ class InternalAuthenticationTest extends AnyFlatSpec:
 
   it should "return a token if the user password matches" in {
     val user = User(
+      id = 1L,
       name = "Test",
       lastName = "Tester",
       email = EmailType.fromString("a@a.com"),
@@ -61,6 +62,7 @@ class InternalAuthenticationTest extends AnyFlatSpec:
 
   it should "return a failure if the password does not matches" in {
     val user = User(
+      id = 1L,
       name = "Test",
       lastName = "Tester",
       email = EmailType.fromString("a@a.com"),
