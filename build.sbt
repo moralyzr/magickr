@@ -5,19 +5,20 @@ organization := "com.moralyzr"
 version := "0.0.1"
 scalaVersion := "3.0.1"
 
-scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
+scalacOptions := Seq("-unchecked", "-deprecation")
 
 libraryDependencies ++= {
   val akkaVersion = "2.6.15"
   val akkaHttpVersion = "10.2.4"
   val akkaHttpCirceVersion = "1.37.0"
   val catsVersion = "2.6.1"
-  val catsEffectVersion = "3.1.1"
+  val catsEffectVersion = "3.2.1"
+  val catsEffectTestVersion = "1.2.0"
   val circeVersion = "0.14.1"
   val doobieVersion = "1.0.0-M5"
-  val flywayVersion = "7.11.2"
-  val jwtCirceVersion = "8.0.2"
-  val logbackVersion = "1.2.4"
+  val flywayVersion = "7.12.0"
+  val jwtCirceVersion = "9.0.0"
+  val logbackVersion = "1.2.5"
   val scalaBcryptVersion = "4.3.0"
   val scalaTestVersion = "3.2.9"
   val scalaLoggingVersion = "3.9.4"
@@ -34,11 +35,13 @@ libraryDependencies ++= {
     "org.tpolecat" %% "doobie-hikari" % doobieVersion,
     "org.tpolecat" %% "doobie-postgres" % doobieVersion,
     "org.flywaydb" % "flyway-core" % flywayVersion,
+    "com.github.jwt-scala" %% "jwt-circe" % jwtCirceVersion,
     "ch.qos.logback" % "logback-classic" % logbackVersion,
     "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
     "org.ekrich" %% "sconfig" % sconfigVersion,
     "org.scalactic" %% "scalactic" % scalaTestVersion,
     "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
+    "org.typelevel" %% "cats-effect-testing-scalatest" % catsEffectTestVersion % "test",
     "org.tpolecat" %% "doobie-h2" % doobieVersion % "test"
   ) ++ Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
@@ -46,7 +49,6 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
     "de.heikoseeberger" %% "akka-http-circe" % akkaHttpCirceVersion,
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion,
-    "com.github.jwt-scala" %% "jwt-circe" % jwtCirceVersion,
     "com.github.t3hnar" %% "scala-bcrypt" % scalaBcryptVersion,
     "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion % "test"
   ).map(_.cross(CrossVersion.for3Use2_13))

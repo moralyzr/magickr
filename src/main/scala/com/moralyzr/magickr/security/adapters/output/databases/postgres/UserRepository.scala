@@ -16,8 +16,14 @@ import com.moralyzr.magickr.security.core.ports.outgoing.PersistUser
 import cats.data.EitherT
 import com.moralyzr.magickr.infrastructure.errorhandling.Problem
 import doobie.util.update.Update0
+import com.moralyzr.magickr.infrastructure.database.doobie.implicits
+import com.moralyzr.magickr.infrastructure.database.doobie.implicits
+import com.moralyzr.magickr.infrastructure.database.doobie.implicits.SqlLogHandler
+import doobie.util.log.LogHandler
 
 private object UserSql:
+
+  implicit val han: LogHandler = SqlLogHandler.slf4jLogHandler
 
   def findWithId(id: Long): Query0[User] =
     sql"""
@@ -30,7 +36,8 @@ private object UserSql:
        """.query
 
   def saveUser(user: User): Update0 = sql"""
-     INSERT INTO Users (name, lastName, email, password, active, birthDate) VALUES (${user.name} , ${user.lastName}, ${user.email}, ${user.password}, false, ${user.birthDate})
+     INSERT INTO Users (name, lastName, email, password, active, birthDate)
+     VALUES (${user.name} , ${user.lastName}, ${user.email}, ${user.password}, false, ${user.birthDate})
   """.update
 
   def updateUser(user: User): Update0 = sql"""
@@ -65,7 +72,6 @@ class UserRepository[F[_]: Async](val xa: Transactor[F])
   override def update(user: User): OptionT[F, User] =
     val result = UserSql.updateUser(user).run.transact(xa)
     result match {
-      case 0 => OptionT.none
       case 1 => withId(user.id)
       case _ => OptionT.none
     }

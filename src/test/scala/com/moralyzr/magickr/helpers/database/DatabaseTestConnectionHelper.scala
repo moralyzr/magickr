@@ -3,6 +3,7 @@ package com.moralyzr.magickr.helpers.database
 import com.moralyzr.magickr.infrastructure.database.doobie.DatabaseConnection
 import com.moralyzr.magickr.infrastructure.database.DatabaseConfig
 import cats.effect.IO
+import cats.effect.unsafe.implicits.global
 import com.moralyzr.magickr.infrastructure.database.flyway.FlywayConfig
 import cats.effect.kernel.Resource
 import com.moralyzr.magickr.infrastructure.database.flyway.{
@@ -25,11 +26,8 @@ object DatabaseTestConnectionHelper {
     migrationsLocations = List("classpath:/db/migrations")
   )
 
-  def buildTransactor() = for {
-    _ <- Resource.eval(
-      DbMigrations.migrate[IO](flywayConfig, dbConfig)
-    )
-    transactor <- DatabaseConnection.makeTransactor[IO](dbConfig)
-  } yield (transactor)
+  def buildTransactor() =
+    DbMigrations.migrate[IO](flywayConfig, dbConfig).unsafeRunSync()
+    DatabaseConnection.makeTransactor[IO](dbConfig)
 
 }

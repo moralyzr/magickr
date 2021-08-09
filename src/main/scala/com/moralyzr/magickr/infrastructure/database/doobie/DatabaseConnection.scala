@@ -11,9 +11,13 @@ import doobie.util.transactor.Transactor
 import org.slf4j.LoggerFactory
 
 object DatabaseConnection:
-  private lazy val logger: Logger = Logger(LoggerFactory.getLogger(this.getClass.getName))
+  private lazy val logger: Logger = Logger(
+    LoggerFactory.getLogger(this.getClass.getName)
+  )
 
-  def makeTransactor[F[_] : Async](config: DatabaseConfig): Resource[F, HikariTransactor[F]] =
+  def makeTransactor[F[_]: Async](
+      config: DatabaseConfig
+  ): Resource[F, HikariTransactor[F]] =
     logger.info(s"Connecting to the Database at ${config.url}")
     for {
       ce <- ExecutionContexts.fixedThreadPool[F](size = config.poolSize)
@@ -22,6 +26,6 @@ object DatabaseConnection:
         url = config.url,
         user = config.user,
         pass = config.password,
-        connectEC = ce,
+        connectEC = ce
       )
     } yield xa
