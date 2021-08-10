@@ -54,7 +54,7 @@ class UserRepositoryTest extends AnyFlatSpec with Matchers {
 
   it should "update an user if it exists" in {
     val user = User(
-      id = 1L,
+      id = 2L,
       name = "Test",
       lastName = "Tester",
       email = EmailType.fromString("a@a.com"),
@@ -68,12 +68,12 @@ class UserRepositoryTest extends AnyFlatSpec with Matchers {
     val theUpdatedUser = (for {
       transactor <- databaseHelper
       userRepository = UserRepository[IO](transactor)
-      _ <- Resource.eval(userRepository.save(user))
-      userToUpdate = user.copy(active = true)
+      savedUser <- Resource.eval(userRepository.save(user))
+      userToUpdate = savedUser.copy(active = true)
       updatedUser = userRepository.update(userToUpdate)
     } yield updatedUser).use(_.value).unsafeRunSync()
 
-    theUpdatedUser.get.active shouldBe true
+    theUpdatedUser should contain(expectedUpdatedUser)
   }
 
 }
