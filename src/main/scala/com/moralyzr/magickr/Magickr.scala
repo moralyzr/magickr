@@ -67,9 +67,9 @@ object Magickr extends IOApp:
         authentication = authentication
       )
       // Api
-      securityApi <- Resource.eval(SecurityApi[IO](securityManagement))
+      secApi = new SecurityApi[IO](securityManagement)
       routes = pathPrefix("api") {
-        securityApi.routes
+        secApi.routes()
       }
       akkaHttp <- AkkaHttpResource.makeHttpServer[IO](
         akkaHttpConfig = httpConfigs,

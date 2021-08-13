@@ -16,16 +16,16 @@ import com.moralyzr.magickr.security.core.types.TokenType.Token
 import com.moralyzr.magickr.security.core.ports.outgoing.Authentication
 import com.moralyzr.magickr.security.core.SecurityManagement
 import cats.effect.kernel.Sync
+import Marshallable.*
+import akka.http.scaladsl.marshalling.{ToEntityMarshaller, ToResponseMarshaller}
 
 class SecurityApi[F[_]: Async](
     private val securityManagement: SecurityManagement[F]
-)(using
-    marshaller: Marshallable[F]
 ) extends LoginUserByCredentials[F]
     with SecurityProtocols:
 
-  def routes: Route =
-    (path("/security/auth") & post) {
+  def routes()(using marshaller: Marshallable[F]): Route = pathPrefix("security") {
+    (path("auth") & post) {
       entity(as[LoginUserByCredentialsCommand]) {
         (command: LoginUserByCredentialsCommand) =>
           complete {
@@ -33,15 +33,9 @@ class SecurityApi[F[_]: Async](
           }
       }
     }
+  }
 
   override def login(
       command: LoginUserByCredentialsCommand
   ): F[Either[AuthError, Token]] =
     securityManagement.loginWithCredentials(command = command).value
-
-object SecurityApi:
-  def apply[F[_]: Async](securityManagement: SecurityManagement[F])(using
-      marshaller: Marshallable[F]
-  ) = Async[F].delay {
-    new SecurityApi[F](securityManagement)
-  }

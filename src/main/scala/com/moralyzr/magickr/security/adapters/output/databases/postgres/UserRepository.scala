@@ -20,8 +20,7 @@ import com.moralyzr.magickr.infrastructure.database.doobie.implicits
 import com.moralyzr.magickr.infrastructure.database.doobie.implicits
 import com.moralyzr.magickr.infrastructure.database.doobie.implicits.SqlLogHandler
 import doobie.util.log.LogHandler
-import cats.implicits.toFlatMapOps
-import cats.implicits.toFunctorOps
+import cats.implicits.*
 
 private object UserSql:
 
@@ -40,7 +39,7 @@ private object UserSql:
   def saveUser(user: User): Update0 = sql"""
      INSERT INTO Users (name, lastName, email, password, active, birthDate)
      VALUES (${user.name} , ${user.lastName}, ${user.email}, ${user.password}, false, ${user.birthDate})
-                                         """.update
+    """.update
 
   def updateUser(user: User): Update0 = sql"""
      UPDATE Users SET
@@ -52,11 +51,11 @@ private object UserSql:
         birthDate = ${user.birthDate}
       WHERE
         id = ${user.id}
-                                           """.update
+  """.update
 
-class UserRepository[F[_] : Async](val xa: Transactor[F])
-  extends FindUser[F]
-    with PersistUser[F] :
+class UserRepository[F[_]: Async](val xa: Transactor[F])
+    extends FindUser[F]
+    with PersistUser[F]:
 
   override def withId(id: Long): OptionT[F, User] =
     OptionT(UserSql.findWithId(id).option.transact(xa))
@@ -82,4 +81,4 @@ class UserRepository[F[_] : Async](val xa: Transactor[F])
   )
 
 object UserRepository:
-  def apply[F[_] : Async](xa: Transactor[F]) = new UserRepository[F](xa)
+  def apply[F[_]: Async](xa: Transactor[F]) = new UserRepository[F](xa)
