@@ -24,7 +24,10 @@ import com.moralyzr.magickr.security.adapters.output.security.internal.{
   JwtBuilder
 }
 import com.moralyzr.magickr.security.core.SecurityManagement
-import com.moralyzr.magickr.security.core.interpreters.SecurityValidationsInterpreter
+import com.moralyzr.magickr.security.core.interpreters.{
+  PasswordValidationInterpreter,
+  UserValidationInterpreter
+}
 import com.moralyzr.magickr.security.core.types.JwtConfig
 import com.moralyzr.magickr.infrastructure.database.flyway.{
   DbMigrations,
@@ -49,22 +52,25 @@ object Magickr extends IOApp:
       databaseConfigs = DatabaseConfig[IO](configs)
       flywayConfigs = FlywayConfig[IO](configs)
       jwtConfig = JwtConfig[IO](configs)
-      // Interpreters
-      jwtManager = JwtBuilder[IO](jwtConfig)
-      authentication = InternalAuthentication[IO](
-        passwordValidationAlgebra = new SecurityValidationsInterpreter(),
-        jwtManager = jwtManager
-      )
       // Database
       _ <- Resource.eval(
         DbMigrations.migrate[IO](flywayConfigs, databaseConfigs)
       )
       transactor <- DatabaseConnection.makeTransactor[IO](databaseConfigs)
       userRepository = UserRepository[IO](transactor)
+      // Interpreters
+      jwtManager = JwtBuilder[IO](jwtConfig)
+      authentication = InternalAuthentication[IO](
+        passwordValidationAlgebra = new PasswordValidationInterpreter(),
+        jwtManager = jwtManager
+      )
+      userValidation = UserValidationInterpreter[IO](userRepository)
       // Services
       securityManagement = SecurityManagement[IO](
         findUser = userRepository,
-        authentication = authentication
+        persistUser = userRepository,
+        authentication = authentication,
+        userValidationAlgebra = userValidation
       )
       // Api
       secApi = new SecurityApi[IO](securityManagement)

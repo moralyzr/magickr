@@ -4,7 +4,7 @@ import com.moralyzr.magickr.security.adapters.output.security.internal.{
   InternalAuthentication,
   JwtBuilder
 }
-import com.moralyzr.magickr.security.core.interpreters.SecurityValidationsInterpreter
+import com.moralyzr.magickr.security.core.interpreters.PasswordValidationInterpreter
 import com.moralyzr.magickr.security.core.models.User
 import com.moralyzr.magickr.security.core.ports.outgoing.FindUser
 import com.moralyzr.magickr.security.core.types.{
@@ -34,7 +34,7 @@ class InternalAuthenticationTest extends AnyFlatSpec:
     issuer = "local"
   )
 
-  private val passwordValidationAlgebra = new SecurityValidationsInterpreter()
+  private val passwordValidationAlgebra = new PasswordValidationInterpreter()
   private val jwtBuilder = JwtBuilder[IO](jwtConfig)
   private val internalAuthentication = InternalAuthentication[IO](
     passwordValidationAlgebra = passwordValidationAlgebra,
@@ -43,7 +43,7 @@ class InternalAuthenticationTest extends AnyFlatSpec:
 
   it should "return a token if the user password matches" in {
     val user = User(
-      id = 1L,
+      id = Some(1L),
       name = "Test",
       lastName = "Tester",
       email = EmailType.fromString("a@a.com"),
@@ -62,7 +62,7 @@ class InternalAuthenticationTest extends AnyFlatSpec:
 
   it should "return a failure if the password does not matches" in {
     val user = User(
-      id = 1L,
+      id = Some(1L),
       name = "Test",
       lastName = "Tester",
       email = EmailType.fromString("a@a.com"),

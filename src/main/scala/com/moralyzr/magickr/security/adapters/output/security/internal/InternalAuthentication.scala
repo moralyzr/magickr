@@ -17,13 +17,13 @@ import com.moralyzr.magickr.security.core.validations.PasswordValidationAlgebra
 import cats.effect.kernel.Sync
 
 class InternalAuthentication[F[_]: Sync](
-    private val passwordValidation: PasswordValidationAlgebra,
-    private val jwtManager: JwtManager[F]
+  private val passwordValidation: PasswordValidationAlgebra,
+  private val jwtManager: JwtManager[F]
 ) extends Authentication[F]:
-  
+
   override def forUser(
-      user: User,
-      password: String
+    user: User,
+    password: String
   ): EitherT[F, AuthError, Token] =
     val token = for {
       _ <- passwordValidation.invalidPassword(password, user.password)
@@ -32,8 +32,8 @@ class InternalAuthentication[F[_]: Sync](
     EitherT.fromEither(token)
 
 object InternalAuthentication:
-  def apply[F[_] : Sync](
-      passwordValidationAlgebra: PasswordValidationAlgebra,
-      jwtManager: JwtManager[F]
+  def apply[F[_]: Sync](
+    passwordValidationAlgebra: PasswordValidationAlgebra,
+    jwtManager: JwtManager[F]
   ): InternalAuthentication[F] =
     new InternalAuthentication[F](passwordValidationAlgebra, jwtManager)

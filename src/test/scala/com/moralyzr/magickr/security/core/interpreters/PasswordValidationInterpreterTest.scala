@@ -4,10 +4,10 @@ import com.moralyzr.magickr.security.core.errors.AuthError
 import com.moralyzr.magickr.security.core.types.PasswordType
 import org.scalatest.flatspec.AnyFlatSpec
 
-class SecurityValidationsInterpreterTest extends AnyFlatSpec {
+class PasswordValidationInterpreterTest extends AnyFlatSpec {
   behavior of "The Password security validation"
 
-  private val interpreter = new SecurityValidationsInterpreter()
+  private val interpreter = new PasswordValidationInterpreter()
 
   it should "validate a success if the password match the hash" in {
     val plainPassword = "plain-password"

@@ -33,7 +33,7 @@ class UserRepositoryTest extends AnyFlatSpec with Matchers {
 
   it should "fetch an user from the database, and if it exists, returns the user" in {
     val user = User(
-      id = 1L,
+      id = Some(1L),
       name = "Test",
       lastName = "Tester",
       email = EmailType.fromString("a@a.com"),
@@ -54,7 +54,7 @@ class UserRepositoryTest extends AnyFlatSpec with Matchers {
 
   it should "update an user if it exists" in {
     val user = User(
-      id = 2L,
+      id = Some(2L),
       name = "Test",
       lastName = "Tester",
       email = EmailType.fromString("a@a.com"),

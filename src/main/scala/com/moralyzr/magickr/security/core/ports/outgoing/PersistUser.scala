@@ -5,7 +5,8 @@ import com.moralyzr.magickr.security.core.models.User
 import cats.data.EitherT
 import com.moralyzr.magickr.infrastructure.errorhandling.Problem
 import cats.data.OptionT
+import com.moralyzr.magickr.security.core.errors.AuthError
 
-trait PersistUser[F[_] : Async]: 
+trait PersistUser[F[_] : Async]:
     def save(user: User): F[User]
     def update(user: User): OptionT[F, User]

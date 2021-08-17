@@ -1,7 +1,7 @@
 package com.moralyzr.magickr.security.adapters.output.databases.postgres
 
 import cats.data.OptionT
-import cats.effect.kernel.{Resource, Async}
+import cats.effect.kernel.{Async, Resource}
 import com.moralyzr.magickr.security.core.models.User
 import com.moralyzr.magickr.security.core.ports.outgoing.FindUser
 import com.moralyzr.magickr.security.core.types.EmailType.Email
@@ -21,11 +21,9 @@ import com.moralyzr.magickr.infrastructure.database.doobie.implicits
 import com.moralyzr.magickr.infrastructure.database.doobie.implicits.SqlLogHandler
 import doobie.util.log.LogHandler
 import cats.implicits.*
+import com.moralyzr.magickr.security.core.errors.AuthError
 
 private object UserSql:
-
-  implicit val han: LogHandler = SqlLogHandler.slf4jLogHandler
-
   def findWithId(id: Long): Query0[User] =
     sql"""
        SELECT * FROM Users WHERE id = $id
@@ -67,18 +65,16 @@ class UserRepository[F[_]: Async](val xa: Transactor[F])
     UserSql
       .saveUser(user = user)
       .withUniqueGeneratedKeys[Long]("id")
-      .map(id => user.copy(id))
+      .map(id => user.copy(Some(id)))
       .transact(xa)
 
-  override def update(user: User): OptionT[F, User] = OptionT(
-    for {
-      result <- UserSql.updateUser(user).run.transact(xa)
-      updatedUser <- result match {
-        case 1 => withId(user.id).value
-        case _ => OptionT.none.value
-      }
-    } yield (updatedUser)
-  )
+  override def update(user: User): OptionT[F, User] = OptionT(for {
+    result <- UserSql.updateUser(user).run.transact(xa)
+    updatedUser <- result match {
+      case 1 => user.id.fold(OptionT.none.value)(withId(_).value)
+      case _ => OptionT.none.value
+    }
+  } yield (updatedUser))
 
 object UserRepository:
   def apply[F[_]: Async](xa: Transactor[F]) = new UserRepository[F](xa)
