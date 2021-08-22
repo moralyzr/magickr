@@ -12,11 +12,13 @@ libraryDependencies ++= {
   val akkaHttpVersion = "10.2.4"
   val akkaHttpCirceVersion = "1.37.0"
   val catsVersion = "2.6.1"
-  val catsEffectVersion = "3.2.1"
+  val catsEffectVersion = "3.2.2"
   val catsEffectTestVersion = "1.2.0"
+  val catsEffectTestkitVersion = "3.2.2"
+  val catsMtlVersion = "1.2.1"
   val circeVersion = "0.14.1"
   val doobieVersion = "1.0.0-M5"
-  val flywayVersion = "7.12.0"
+  val flywayVersion = "7.12.1"
   val jwtCirceVersion = "9.0.0"
   val logbackVersion = "1.2.5"
   val scalaBcryptVersion = "4.3.0"
@@ -28,6 +30,7 @@ libraryDependencies ++= {
     "org.typelevel" %% "cats-core" % catsVersion,
     "org.typelevel" %% "cats-kernel" % catsVersion,
     "org.typelevel" %% "cats-effect" % catsEffectVersion,
+    "org.typelevel" %% "cats-mtl" % catsMtlVersion,
     "io.circe" %% "circe-core" % circeVersion,
     "io.circe" %% "circe-parser" % circeVersion,
     "io.circe" %% "circe-generic" % circeVersion,
@@ -42,6 +45,7 @@ libraryDependencies ++= {
     "org.scalactic" %% "scalactic" % scalaTestVersion,
     "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
     "org.typelevel" %% "cats-effect-testing-scalatest" % catsEffectTestVersion % "test",
+    "org.typelevel" %% "cats-effect-testkit" % catsEffectTestkitVersion % "test",
     "org.tpolecat" %% "doobie-h2" % doobieVersion % "test"
   ) ++ Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,

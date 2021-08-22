@@ -5,6 +5,7 @@ import cats.effect.kernel.{Async, Resource}
 import cats.effect.implicits.*
 import cats.implicits.*
 import com.moralyzr.magickr.security.core.errors.AuthError
+import com.moralyzr.magickr.security.core.errors.UserNotFound
 import com.moralyzr.magickr.security.core.mappers.UserMappers
 import com.moralyzr.magickr.security.core.models.User
 import com.moralyzr.magickr.security.core.ports.incoming.{
@@ -27,11 +28,10 @@ class SecurityManagement[F[_]: Async](
 ):
   def loginWithCredentials(
     command: LoginUserByCredentialsCommand
-  ): EitherT[F, AuthError, Token] =
-    for {
-      user <- findUser.withEmail(command.email).toRight(AuthError.UserNotFound)
-      token <- authentication.forUser(user, command.password)
-    } yield token
+  ): EitherT[F, AuthError, Token] = for {
+    user <- findUser.withEmail(command.email).toRight(UserNotFound)
+    token <- authentication.forUser(user, command.password)
+  } yield token
 
   def registerUserWithCredentials(
     command: RegisterUserWithCredentialsCommand
@@ -47,10 +47,9 @@ object SecurityManagement:
     persistUser: PersistUser[F],
     authentication: Authentication[F],
     userValidationAlgebra: UserValidationAlgebra[F]
-  ): SecurityManagement[F] =
-    new SecurityManagement[F](
-      findUser,
-      persistUser,
-      authentication,
-      userValidationAlgebra
-    )
+  ): SecurityManagement[F] = new SecurityManagement[F](
+    findUser,
+    persistUser,
+    authentication,
+    userValidationAlgebra
+  )

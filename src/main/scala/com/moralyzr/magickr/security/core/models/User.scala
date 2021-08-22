@@ -2,6 +2,7 @@ package com.moralyzr.magickr.security.core.models
 
 import com.moralyzr.magickr.security.core.types.EmailType.Email
 import com.moralyzr.magickr.security.core.types.PasswordType.Password
+import io.circe.generic.auto.*
 
 import java.time.LocalDate
 

@@ -1,6 +1,6 @@
 package com.moralyzr.magickr.security.core.interpreters
 
-import com.moralyzr.magickr.security.core.errors.AuthError
+import com.moralyzr.magickr.security.core.errors.InvalidCredentials
 import com.moralyzr.magickr.security.core.types.PasswordType
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -25,7 +25,7 @@ class PasswordValidationInterpreterTest extends AnyFlatSpec {
     val result = interpreter.invalidPassword(plainPassword, hashedPassword)
 
     assert(result.isLeft)
-    assert(result.left.exists(e => e.equals(AuthError.InvalidCredentials)))
+    assert(result.left.exists(e => e.equals(InvalidCredentials)))
   }
 
 }
