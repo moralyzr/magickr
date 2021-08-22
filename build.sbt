@@ -43,10 +43,11 @@ libraryDependencies ++= {
     "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
     "org.ekrich" %% "sconfig" % sconfigVersion,
     "org.scalactic" %% "scalactic" % scalaTestVersion,
-    "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
-    "org.typelevel" %% "cats-effect-testing-scalatest" % catsEffectTestVersion % "test",
-    "org.typelevel" %% "cats-effect-testkit" % catsEffectTestkitVersion % "test",
-    "org.tpolecat" %% "doobie-h2" % doobieVersion % "test"
+    "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
+    "org.typelevel" %% "cats-effect-testing-scalatest" % catsEffectTestVersion % Test,
+    "org.typelevel" %% "cats-effect-testkit" % catsEffectTestkitVersion % Test,
+    "org.scalacheck" %% "scalacheck" % "1.15.4" % Test,
+    "org.tpolecat" %% "doobie-h2" % doobieVersion % Test
   ) ++ Seq(
     "com.typesafe.akka" %% "akka-actor" % akkaVersion,
     "com.typesafe.akka" %% "akka-stream" % akkaVersion,
@@ -54,7 +55,8 @@ libraryDependencies ++= {
     "de.heikoseeberger" %% "akka-http-circe" % akkaHttpCirceVersion,
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion,
     "com.github.t3hnar" %% "scala-bcrypt" % scalaBcryptVersion,
-    "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion % "test"
+    "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion % Test,
+    "io.github.etspaceman" %% "scalacheck-faker" % "7.0.0" % Test
   ).map(_.cross(CrossVersion.for3Use2_13))
 }
 

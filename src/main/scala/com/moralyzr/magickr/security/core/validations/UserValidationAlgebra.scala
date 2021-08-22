@@ -5,5 +5,7 @@ import cats.Monad
 import com.moralyzr.magickr.security.core.errors.AuthError
 
 trait UserValidationAlgebra[F[_] : Monad]:
-  def exists(userId: Long): EitherT[F, AuthError , Unit]
-  def exists(email: String): EitherT[F, AuthError , Unit]
+  def shouldExist(userId: Long): EitherT[F, AuthError , Unit]
+  def shouldExist(email: String): EitherT[F, AuthError , Unit]
+  def doesNotExist(userId: Long): EitherT[F, AuthError, Unit]
+  def doesNotExist(email: String): EitherT[F, AuthError, Unit]

@@ -22,12 +22,12 @@ import com.moralyzr.magickr.security.core.SecurityManagement
 import cats.effect.kernel.Sync
 import com.moralyzr.magickr.security.core.models.User
 
-class SecurityApi[F[_]: Async](
+class SecurityApi[F[_] : Async](
   private val securityManagement: SecurityManagement[F]
 )(using marshaller: Marshallable[F])
-    extends LoginUserByCredentials[F]
+  extends LoginUserByCredentials[F]
     with RegisterUserWithCredentials[F]
-    with SecurityProtocols:
+    with SecurityProtocols :
 
   def routes(): Route =
     pathPrefix("security") {
@@ -53,7 +53,7 @@ class SecurityApi[F[_]: Async](
   override def login(
     command: LoginUserByCredentialsCommand
   ): F[Either[AuthError, Token]] =
-    securityManagement.loginWithCredentials(command = command).value
+    securityManagement.loginWithCredentials(command).value
 
   override def register(
     command: RegisterUserWithCredentialsCommand

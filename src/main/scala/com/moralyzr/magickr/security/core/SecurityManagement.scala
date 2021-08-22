@@ -36,7 +36,7 @@ class SecurityManagement[F[_]: Async](
   def registerUserWithCredentials(
     command: RegisterUserWithCredentialsCommand
   ): EitherT[F, AuthError, User] = for {
-    _ <- userValidationAlgebra.exists(command.email)
+    _ <- userValidationAlgebra.doesNotExist(command.email)
     userToRegister = UserMappers.from(command)
     savedUser <- EitherT.liftF(persistUser.save(userToRegister))
   } yield savedUser
