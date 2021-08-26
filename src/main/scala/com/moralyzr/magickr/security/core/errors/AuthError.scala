@@ -1,30 +1,33 @@
 package com.moralyzr.magickr.security.core.errors
 
 import com.moralyzr.magickr.infrastructure.errorhandling.Problem
-import io.circe.generic.auto.*
 
 sealed trait AuthError extends Problem
 
-case object InvalidToken extends AuthError :
-  override val url: String = "/problem/auth/invalid-token"
-  override val code: String = "AUTH_INVALID_TOKEN"
-  override val title: String = "Invalid Token"
-  override val message: String = "The informed authentication token is invalid"
+case class InvalidToken(
+  url: String = "/problem/auth/invalid-token",
+  code: String = "AUTH_INVALID_TOKEN",
+  title: String = "Invalid Token",
+  message: String = "The informed authentication token is invalid"
+)
 
-case object InvalidCredentials extends AuthError :
-  override val url: String = "/problem/auth/invalid-credentials"
-  override val code: String = "AUTH_INVALID_CREDENTIALS"
-  override val title: String = "Invalid Credentials"
-  override val message: String = "The informed user credentials are invalid!"
+case class InvalidCredentials(
+  url: String = "/problem/auth/invalid-credentials",
+  code: String = "AUTH_INVALID_CREDENTIALS",
+  title: String = "Invalid Credentials",
+  message: String = "The informed user credentials are invalid!"
+) extends AuthError
 
-case object UserNotFound extends AuthError :
-  override val url: String = "/problem/auth/user-not-found"
-  override val code: String = "AUTH_USER_NOT_FOUND"
-  override val title: String = "Invalid Credentials"
-  override val message: String = "The informed user does not exists!"
+case class UserNotFound(
+  url: String = "/problem/auth/user-not-found",
+  code: String = "AUTH_USER_NOT_FOUND",
+  title: String = "Invalid Credentials",
+  message: String = "The informed user does not exists!"
+) extends AuthError
 
-case object UserAlreadyExists extends AuthError :
-  override val url: String = "/problem/auth/user-already-exists"
-  override val code: String = "AUTH_USER_ALREADY_EXISTS"
-  override val title: String = "User Already Exists"
-  override val message: String = "The informed user is already registered!"
+case class UserAlreadyExists(
+  url: String = "/problem/auth/user-already-exists",
+  code: String = "AUTH_USER_ALREADY_EXISTS",
+  title: String = "User Already Exists",
+  message: String = "The informed user is already registered!"
+) extends AuthError

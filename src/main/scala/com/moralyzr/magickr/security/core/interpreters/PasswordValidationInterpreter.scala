@@ -16,5 +16,5 @@ class PasswordValidationInterpreter extends PasswordValidationAlgebra:
   ): Either[AuthError, Unit] =
     password.isBcryptedBounded(existingPassword.toString) match {
       case true  => Right(())
-      case false => Left(InvalidCredentials)
+      case false => Left(new InvalidCredentials())
     }

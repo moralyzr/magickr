@@ -10,7 +10,6 @@ import cats.data.EitherT
 import cats.effect.IO
 import akka.http.scaladsl.server.Directives.*
 import akka.http.scaladsl.server.Route
-import io.circe.generic.auto.*
 import com.moralyzr.magickr.infrastructure.httpserver.json.Marshallable
 import com.moralyzr.magickr.infrastructure.httpserver.json.Marshallable.*
 import cats.effect.kernel.Async

@@ -2,6 +2,7 @@ package com.moralyzr.magickr.security.core.ports.incoming
 
 import com.moralyzr.magickr.security.core.errors.AuthError
 import com.moralyzr.magickr.security.core.models.User
+import io.circe.generic.auto.*
 
 import java.time.LocalDate
 

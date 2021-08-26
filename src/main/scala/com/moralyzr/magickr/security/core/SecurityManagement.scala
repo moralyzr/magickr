@@ -29,7 +29,7 @@ class SecurityManagement[F[_]: Async](
   def loginWithCredentials(
     command: LoginUserByCredentialsCommand
   ): EitherT[F, AuthError, Token] = for {
-    user <- findUser.withEmail(command.email).toRight(UserNotFound)
+    user <- findUser.withEmail(command.email).toRight(new UserNotFound())
     token <- authentication.forUser(user, command.password)
   } yield token
 

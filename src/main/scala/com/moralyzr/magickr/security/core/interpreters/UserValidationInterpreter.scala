@@ -18,25 +18,25 @@ class UserValidationInterpreter[F[_]: Monad](private val findUser: FindUser[F])
   override def shouldExist(userId: Long): EitherT[F, AuthError, Unit] =
     findUser
       .withId(userId)
-      .toRight(UserNotFound)
+      .toRight(new UserNotFound())
       .void
 
   override def shouldExist(email: String): EitherT[F, AuthError, Unit] =
     findUser
       .withEmail(EmailType.fromString(email))
-      .toRight(UserNotFound)
+      .toRight(new UserNotFound())
       .void
 
   override def doesNotExist(userId: Long): EitherT[F, AuthError, Unit] =
     findUser
       .withId(userId)
-      .map(_ => UserAlreadyExists)
+      .map(_ => new UserAlreadyExists())
       .toLeft(())
 
   override def doesNotExist(email: String): EitherT[F, AuthError, Unit] =
     findUser
       .withEmail(EmailType.fromString(email))
-      .map(_ => UserAlreadyExists)
+      .map(_ => new UserAlreadyExists())
       .toLeft(())
 
 object UserValidationInterpreter:
