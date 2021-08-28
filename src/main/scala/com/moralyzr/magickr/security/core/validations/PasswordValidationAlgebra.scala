@@ -7,6 +7,6 @@ import com.moralyzr.magickr.security.core.types.PasswordType.Password
 
 trait PasswordValidationAlgebra:
   def invalidPassword(
-      password: String,
-      existingPassword: Password
+    password        : String,
+    existingPassword: Password
   ): Either[AuthError, Unit]

@@ -12,9 +12,9 @@ trait RegisterUserWithCredentials[F[_]]:
   ): F[Either[AuthError, User]]
 
 final case class RegisterUserWithCredentialsCommand(
-  val name: String,
-  val lastName: String,
-  val email: String,
-  val password: String,
+  val name     : String,
+  val lastName : String,
+  val email    : String,
+  val password : String,
   val birthDate: LocalDate
 )

@@ -3,17 +3,12 @@ package com.moralyzr.magickr.security.core.interpreters
 import cats.data.EitherT
 import cats.Monad
 import cats.implicits.*
-import com.moralyzr.magickr.security.core.errors.{
-  AuthError,
-  UserAlreadyExists,
-  UserNotFound
-}
+import com.moralyzr.magickr.security.core.errors.{AuthError, UserAlreadyExists, UserNotFound}
 import com.moralyzr.magickr.security.core.ports.outgoing.FindUser
 import com.moralyzr.magickr.security.core.types.EmailType
 import com.moralyzr.magickr.security.core.validations.UserValidationAlgebra
 
-class UserValidationInterpreter[F[_]: Monad](private val findUser: FindUser[F])
-    extends UserValidationAlgebra[F]:
+class UserValidationInterpreter[F[_] : Monad](private val findUser: FindUser[F]) extends UserValidationAlgebra[F] :
 
   override def shouldExist(userId: Long): EitherT[F, AuthError, Unit] =
     findUser
@@ -40,5 +35,5 @@ class UserValidationInterpreter[F[_]: Monad](private val findUser: FindUser[F])
       .toLeft(())
 
 object UserValidationInterpreter:
-  def apply[F[_]: Monad](findUser: FindUser[F]): UserValidationInterpreter[F] =
+  def apply[F[_] : Monad](findUser: FindUser[F]): UserValidationInterpreter[F] =
     new UserValidationInterpreter[F](findUser)

@@ -39,7 +39,7 @@ import scala.concurrent.duration.Duration
 import com.moralyzr.magickr.security.adapters.input.rest.SecurityApi
 import java.security.Security
 
-object Magickr extends IOApp:
+object Magickr extends IOApp :
 
   override def run(args: List[String]): IO[ExitCode] =
     val server = for {

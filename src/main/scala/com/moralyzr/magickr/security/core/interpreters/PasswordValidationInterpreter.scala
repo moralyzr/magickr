@@ -4,14 +4,13 @@ import cats.data.EitherT
 import cats.effect.IO
 import cats.Monad
 import com.github.t3hnar.bcrypt.*
-import com.moralyzr.magickr.security.core.errors.AuthError
-import com.moralyzr.magickr.security.core.errors.InvalidCredentials
+import com.moralyzr.magickr.security.core.errors.{AuthError, InvalidCredentials}
 import com.moralyzr.magickr.security.core.types.PasswordType.Password
 import com.moralyzr.magickr.security.core.validations.PasswordValidationAlgebra
 
-class PasswordValidationInterpreter extends PasswordValidationAlgebra:
+class PasswordValidationInterpreter extends PasswordValidationAlgebra :
   override def invalidPassword(
-    password: String,
+    password        : String,
     existingPassword: Password
   ): Either[AuthError, Unit] =
     password.isBcryptedBounded(existingPassword.toString) match {

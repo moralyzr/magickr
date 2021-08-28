@@ -10,7 +10,7 @@ class PasswordValidationInterpreterTest extends AnyFlatSpec {
   private val interpreter = new PasswordValidationInterpreter()
 
   it should "validate a success if the password match the hash" in {
-    val plainPassword = "plain-password"
+    val plainPassword  = "plain-password"
     val hashedPassword = PasswordType.fromString(plainPassword)
 
     val result = interpreter.invalidPassword(plainPassword, hashedPassword)
@@ -19,13 +19,13 @@ class PasswordValidationInterpreterTest extends AnyFlatSpec {
   }
 
   it should "return an invalid credentials error if the hash does not match" in {
-    val plainPassword = "plain-password"
+    val plainPassword  = "plain-password"
     val hashedPassword = PasswordType.fromString("another-password")
 
     val result = interpreter.invalidPassword(plainPassword, hashedPassword)
 
     assert(result.isLeft)
-    assert(result.left.exists(e => e.equals(InvalidCredentials)))
+    assert(result.left.exists(e => e.equals(new InvalidCredentials())))
   }
 
 }

@@ -10,6 +10,6 @@ trait LoginUserByCredentials[F[_]]:
   def login(command: LoginUserByCredentialsCommand): F[Either[AuthError, Token]]
 
 final case class LoginUserByCredentialsCommand(
-  val email: Email,
+  val email   : Email,
   val password: String
 )
