@@ -7,7 +7,7 @@ import com.moralyzr.magickr.security.core.types.EmailType.Email
 import com.moralyzr.magickr.security.core.types.TokenType.*
 
 trait LoginUserByCredentials[F[_]]:
-  def login(command: LoginUserByCredentialsCommand): F[Either[AuthError, Token]]
+  def login(command: LoginUserByCredentialsCommand): EitherT[F, AuthError, Token]
 
 final case class LoginUserByCredentialsCommand(
   val email   : Email,

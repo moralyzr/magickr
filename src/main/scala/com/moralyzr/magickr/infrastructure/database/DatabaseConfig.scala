@@ -2,7 +2,7 @@ package com.moralyzr.magickr.infrastructure.database
 
 import cats.effect.IO
 import cats.effect.kernel.{Resource, Sync}
-import com.moralyzr.magickr.infrastructure.httpserver.AkkaHttpConfig
+import com.moralyzr.magickr.infrastructure.http.HttpConfig
 import com.typesafe.config.Config
 
 final case class DatabaseConfig(

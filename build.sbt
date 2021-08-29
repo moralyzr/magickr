@@ -8,23 +8,20 @@ scalaVersion := "3.0.1"
 scalacOptions := Seq("-unchecked", "-deprecation")
 
 libraryDependencies ++= {
-  val akkaVersion = "2.6.15"
-  val akkaHttpVersion = "10.2.4"
-  val akkaHttpCirceVersion = "1.37.0"
-  val catsVersion = "2.6.1"
-  val catsEffectVersion = "3.2.2"
-  val catsEffectTestVersion = "1.2.0"
+  val catsVersion              = "2.6.1"
+  val catsEffectVersion        = "3.2.2"
+  val catsEffectTestVersion    = "1.2.0"
   val catsEffectTestkitVersion = "3.2.2"
-  val catsMtlVersion = "1.2.1"
-  val circeVersion = "0.14.1"
-  val doobieVersion = "1.0.0-M5"
-  val flywayVersion = "7.12.1"
-  val jwtCirceVersion = "9.0.0"
-  val logbackVersion = "1.2.5"
-  val scalaBcryptVersion = "4.3.0"
-  val scalaTestVersion = "3.2.9"
-  val scalaLoggingVersion = "3.9.4"
-  val sconfigVersion = "1.4.4"
+  val catsMtlVersion           = "1.2.1"
+  val circeVersion             = "0.14.1"
+  val doobieVersion            = "1.0.0-M5"
+  val flywayVersion            = "7.14.0"
+  val jwtCirceVersion          = "9.0.0"
+  val logbackVersion           = "1.2.5"
+  val scalaBcryptVersion       = "4.3.0"
+  val scalaTestVersion         = "3.2.9"
+  val scalaLoggingVersion      = "3.9.4"
+  val sconfigVersion           = "1.4.4"
 
   Seq(
     "org.typelevel" %% "cats-core" % catsVersion,
@@ -34,10 +31,14 @@ libraryDependencies ++= {
     "io.circe" %% "circe-core" % circeVersion,
     "io.circe" %% "circe-parser" % circeVersion,
     "io.circe" %% "circe-generic" % circeVersion,
+    "com.typesafe" % "config" % "1.4.1",
     "org.tpolecat" %% "doobie-core" % doobieVersion,
     "org.tpolecat" %% "doobie-hikari" % doobieVersion,
     "org.tpolecat" %% "doobie-postgres" % doobieVersion,
     "org.flywaydb" % "flyway-core" % flywayVersion,
+    "org.http4s" %% "http4s-blaze-server" % "1.0.0-M24",
+    "org.http4s" %% "http4s-circe" % "1.0.0-M24",
+    "org.http4s" %% "http4s-dsl" % "1.0.0-M24",
     "com.github.jwt-scala" %% "jwt-circe" % jwtCirceVersion,
     "ch.qos.logback" % "logback-classic" % logbackVersion,
     "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,
@@ -49,13 +50,7 @@ libraryDependencies ++= {
     "org.scalacheck" %% "scalacheck" % "1.15.4" % Test,
     "org.tpolecat" %% "doobie-h2" % doobieVersion % Test
   ) ++ Seq(
-    "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-    "com.typesafe.akka" %% "akka-stream" % akkaVersion,
-    "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
-    "de.heikoseeberger" %% "akka-http-circe" % akkaHttpCirceVersion,
-    "com.typesafe.akka" %% "akka-testkit" % akkaVersion,
     "com.github.t3hnar" %% "scala-bcrypt" % scalaBcryptVersion,
-    "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion % Test,
     "io.github.etspaceman" %% "scalacheck-faker" % "7.0.0" % Test
   ).map(_.cross(CrossVersion.for3Use2_13))
 }

@@ -1,5 +1,6 @@
 package com.moralyzr.magickr.security.core.ports.incoming
 
+import cats.data.EitherT
 import com.moralyzr.magickr.security.core.errors.AuthError
 import com.moralyzr.magickr.security.core.models.User
 import io.circe.generic.auto.*
@@ -9,7 +10,7 @@ import java.time.LocalDate
 trait RegisterUserWithCredentials[F[_]]:
   def register(
     command: RegisterUserWithCredentialsCommand
-  ): F[Either[AuthError, User]]
+  ): EitherT[F, AuthError, User]
 
 final case class RegisterUserWithCredentialsCommand(
   val name     : String,
