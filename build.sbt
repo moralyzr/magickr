@@ -16,6 +16,7 @@ libraryDependencies ++= {
   val circeVersion             = "0.14.1"
   val doobieVersion            = "1.0.0-M5"
   val flywayVersion            = "7.14.0"
+  val http4sVersion            = "1.0.0-M24"
   val jwtCirceVersion          = "9.0.0"
   val logbackVersion           = "1.2.5"
   val scalaBcryptVersion       = "4.3.0"
@@ -36,9 +37,9 @@ libraryDependencies ++= {
     "org.tpolecat" %% "doobie-hikari" % doobieVersion,
     "org.tpolecat" %% "doobie-postgres" % doobieVersion,
     "org.flywaydb" % "flyway-core" % flywayVersion,
-    "org.http4s" %% "http4s-blaze-server" % "1.0.0-M24",
-    "org.http4s" %% "http4s-circe" % "1.0.0-M24",
-    "org.http4s" %% "http4s-dsl" % "1.0.0-M24",
+    "org.http4s" %% "http4s-blaze-server" % http4sVersion,
+    "org.http4s" %% "http4s-circe" % http4sVersion,
+    "org.http4s" %% "http4s-dsl" % http4sVersion,
     "com.github.jwt-scala" %% "jwt-circe" % jwtCirceVersion,
     "ch.qos.logback" % "logback-classic" % logbackVersion,
     "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion,

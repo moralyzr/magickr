@@ -8,6 +8,3 @@ trait Problem:
   val code: String
   val title: String
   val message: String
-  val statusCode: Int
-
-
