@@ -1,5 +1,6 @@
-package com.moralyzr.magickr.security.core.types
+package com.moralyzr.magickr.domain.security.core.types
 
+import com.moralyzr.magickr.domain.security.core.types.PasswordType
 import org.scalatest.flatspec.AnyFlatSpec
 
 class PasswordTypeTest extends AnyFlatSpec {

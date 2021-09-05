@@ -5,24 +5,24 @@ import cats.effect.kernel.Resource
 import com.moralyzr.magickr.infrastructure.config.MagickrConfigs
 import com.moralyzr.magickr.infrastructure.database.DatabaseConfig
 import com.moralyzr.magickr.infrastructure.database.doobie.DatabaseConnection
-import com.moralyzr.magickr.security.adapters.output.databases.postgres.UserRepository
-import com.moralyzr.magickr.security.adapters.output.security.internal.{InternalAuthentication, JwtBuilder}
-import com.moralyzr.magickr.security.core.SecurityManagement
-import com.moralyzr.magickr.security.core.interpreters.{PasswordValidationInterpreter, UserValidationInterpreter}
-import com.moralyzr.magickr.security.core.types.JwtConfig
+import com.moralyzr.magickr.domain.security.adapters.output.security.internal.JwtBuilder
 import com.moralyzr.magickr.infrastructure.database.flyway.{DbMigrations, FlywayConfig}
-import org.http4s.server.{Router, Server => H4Server}
+import org.http4s.server.{Router, Server as H4Server}
 import org.http4s.blaze.server.BlazeServerBuilder
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
-import com.moralyzr.magickr.security.adapters.input.rest.SecurityApi
 import doobie.util.ExecutionContexts
 import com.moralyzr.magickr.infrastructure.http.HttpConfig
-
 import org.http4s.implicits.*
 import cats.implicits.*
 import cats.effect.implicits.*
+import com.moralyzr.magickr.domain.security.adapters.input.rest.SecurityApi
+import com.moralyzr.magickr.domain.security.adapters.output.databases.postgres.UserRepository
+import com.moralyzr.magickr.domain.security.adapters.output.security.internal.{InternalAuthentication, JwtBuilder}
+import com.moralyzr.magickr.domain.security.core.types.JwtConfig
+import com.moralyzr.magickr.domain.security.core.SecurityManagement
+import com.moralyzr.magickr.domain.security.core.interpreters.{PasswordValidationInterpreter, UserValidationInterpreter}
 
 import java.security.Security
 

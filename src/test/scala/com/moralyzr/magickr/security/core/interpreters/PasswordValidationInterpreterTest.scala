@@ -1,7 +1,8 @@
-package com.moralyzr.magickr.security.core.interpreters
+package com.moralyzr.magickr.domain.security.core.interpreters
 
-import com.moralyzr.magickr.security.core.errors.InvalidCredentials
-import com.moralyzr.magickr.security.core.types.PasswordType
+import com.moralyzr.magickr.domain.security.core.errors.InvalidCredentials
+import com.moralyzr.magickr.domain.security.core.interpreters.PasswordValidationInterpreter
+import com.moralyzr.magickr.domain.security.core.types.PasswordType
 import org.scalatest.flatspec.AnyFlatSpec
 
 class PasswordValidationInterpreterTest extends AnyFlatSpec {

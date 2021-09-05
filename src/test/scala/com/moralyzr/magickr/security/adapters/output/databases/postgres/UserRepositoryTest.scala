@@ -1,15 +1,14 @@
-package com.moralyzr.magickr.security.adapters.output.databases.postgres
+package com.moralyzr.magickr.domain.security.adapters.output.databases.postgres
 
 import org.scalatest.flatspec.AnyFlatSpec
 import com.moralyzr.magickr.infrastructure.database.DatabaseConfig
 import com.moralyzr.magickr.helpers.database.DatabaseTestConnectionHelper
 import cats.effect.IO
 import cats.effect.kernel.Resource
-import com.moralyzr.magickr.security.core.types.EmailType
 import cats.effect.unsafe.implicits.global
+import com.moralyzr.magickr.domain.security.core.models.User
+import com.moralyzr.magickr.domain.security.core.types.{EmailType, PasswordType}
 import org.scalatest.matchers.should.Matchers.shouldBe
-import com.moralyzr.magickr.security.core.models.User
-import com.moralyzr.magickr.security.core.types.PasswordType
 import org.scalatest.matchers.should.Matchers
 
 import java.time.LocalDate

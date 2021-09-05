@@ -1,8 +1,10 @@
-package com.moralyzr.magickr.security.core.mappers
+package com.moralyzr.magickr.domain.security.core.mappers
 
-import com.moralyzr.magickr.security.core.interpreters.PasswordValidationInterpreter
-import com.moralyzr.magickr.security.core.ports.incoming.RegisterUserWithCredentialsCommand
-import com.moralyzr.magickr.security.core.types.{EmailType, PasswordType}
+import com.moralyzr.magickr.domain.security.core.interpreters.PasswordValidationInterpreter
+import com.moralyzr.magickr.domain.security.core.mappers.UserMappers
+import com.moralyzr.magickr.domain.security.core.ports.incoming.RegisterUserWithCredentialsCommand
+import com.moralyzr.magickr.domain.security.core.types.{EmailType, PasswordType}
+import com.moralyzr.magickr.domain.security.core.types.EmailType
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 

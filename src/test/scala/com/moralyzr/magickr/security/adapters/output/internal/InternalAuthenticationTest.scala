@@ -1,27 +1,22 @@
-package com.moralyzr.magickr.security.adapters.output.internal
+package com.moralyzr.magickr.domain.security.adapters.output.internal
 
-import com.moralyzr.magickr.security.adapters.output.security.internal.{
-  InternalAuthentication,
-  JwtBuilder
-}
-import com.moralyzr.magickr.security.core.interpreters.PasswordValidationInterpreter
-import com.moralyzr.magickr.security.core.models.User
-import com.moralyzr.magickr.security.core.ports.outgoing.FindUser
-import com.moralyzr.magickr.security.core.types.{
-  EmailType,
-  JwtConfig,
-  PasswordType
-}
-import com.moralyzr.magickr.security.core.validations.PasswordValidationAlgebra
+import com.moralyzr.magickr.domain.security.adapters.output.security.internal.{InternalAuthentication, JwtBuilder}
+import com.moralyzr.magickr.domain.security.core.types.{EmailType, JwtConfig, PasswordType}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.BeforeAndAfterEach
 import pdi.jwt.JwtAlgorithm
-import com.moralyzr.magickr.security.core.errors.AuthError
 import cats.effect.kernel.Sync
 
 import java.time.LocalDate
 import cats.effect.IO
 import cats.effect.unsafe.implicits.global
+import com.moralyzr.magickr.domain.security.adapters.output.security.internal.{InternalAuthentication, JwtBuilder}
+import com.moralyzr.magickr.domain.security.core.errors.AuthError
+import com.moralyzr.magickr.domain.security.core.interpreters.PasswordValidationInterpreter
+import com.moralyzr.magickr.domain.security.core.models.User
+import com.moralyzr.magickr.domain.security.core.ports.outgoing.FindUser
+import com.moralyzr.magickr.domain.security.core.types.{EmailType, JwtConfig, PasswordType}
+import com.moralyzr.magickr.domain.security.core.validations.PasswordValidationAlgebra
 import org.scalatest.matchers.should.Matchers.*
 
 class InternalAuthenticationTest extends AnyFlatSpec:

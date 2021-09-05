@@ -1,7 +1,8 @@
-package com.moralyzr.magickr.security.fixtures
+package com.moralyzr.magickr.domain.security.fixtures
 
-import com.moralyzr.magickr.security.core.models.User
-import com.moralyzr.magickr.security.core.types.{EmailType, PasswordType}
+import com.moralyzr.magickr.domain.security.core.models.User
+import com.moralyzr.magickr.domain.security.core.types.{EmailType, PasswordType}
+import com.moralyzr.magickr.domain.security.core.types.EmailType
 import faker.Faker
 
 object UserFixtures {
