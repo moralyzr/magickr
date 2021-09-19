@@ -11,25 +11,25 @@ import com.moralyzr.magickr.domain.security.core.errors.UserAlreadyExists
 
 class UserValidationInterpreter[F[_] : Monad](private val findUser: FindUser[F]) extends UserValidationAlgebra[F] :
 
-  override def shouldExist(userId: Long): EitherT[F, AuthError, Unit] =
+  override def shouldExist(userId: Long): EitherT[F, UserNotFound, Unit] =
     findUser
       .withId(userId)
       .toRight(new UserNotFound())
       .void
 
-  override def shouldExist(email: String): EitherT[F, AuthError, Unit] =
+  override def shouldExist(email: String): EitherT[F, UserNotFound, Unit] =
     findUser
       .withEmail(EmailType.fromString(email))
       .toRight(new UserNotFound())
       .void
 
-  override def doesNotExist(userId: Long): EitherT[F, AuthError, Unit] =
+  override def doesNotExist(userId: Long): EitherT[F, UserAlreadyExists, Unit] =
     findUser
       .withId(userId)
       .map(_ => new UserAlreadyExists())
       .toLeft(())
 
-  override def doesNotExist(email: String): EitherT[F, AuthError, Unit] =
+  override def doesNotExist(email: String): EitherT[F, UserAlreadyExists, Unit] =
     findUser
       .withEmail(EmailType.fromString(email))
       .map(_ => new UserAlreadyExists())

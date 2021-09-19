@@ -1,7 +1,6 @@
 package com.moralyzr.magickr.domain.security.core.ports.outgoing
 
 import cats.data.OptionT
-import cats.effect.IO
 import com.moralyzr.magickr.domain.security.core.models.User
 import com.moralyzr.magickr.domain.security.core.types.EmailType.Email
 import com.moralyzr.magickr.domain.security.core.types.PasswordType.Password

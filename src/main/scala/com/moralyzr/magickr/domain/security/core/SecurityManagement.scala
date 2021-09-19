@@ -7,7 +7,10 @@ import cats.implicits.*
 import com.moralyzr.magickr.domain.security.core.errors.{AuthError, UserNotFound}
 import com.moralyzr.magickr.domain.security.core.mappers.UserMappers
 import com.moralyzr.magickr.domain.security.core.models.User
-import com.moralyzr.magickr.domain.security.core.ports.incoming.{LoginUserByCredentialsCommand, RegisterUserWithCredentialsCommand}
+import com.moralyzr.magickr.domain.security.core.ports.incoming.{
+  LoginUserByCredentialsCommand,
+  RegisterUserWithCredentialsCommand
+}
 import com.moralyzr.magickr.domain.security.core.ports.outgoing.{Authentication, FindUser, PersistUser}
 import com.moralyzr.magickr.domain.security.core.validations.UserValidationAlgebra
 import com.moralyzr.magickr.domain.security.core.errors.UserNotFound
