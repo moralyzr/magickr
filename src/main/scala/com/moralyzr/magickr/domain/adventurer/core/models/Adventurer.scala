@@ -8,5 +8,4 @@ case class Adventurer(
   val title            : Option[String] = None,
   val level            : Int,
   val currentExperience: Long,
-  val currentLevel     : Int
 )

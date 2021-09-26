@@ -9,14 +9,14 @@ scalacOptions := Seq("-unchecked", "-deprecation")
 
 libraryDependencies ++= {
   val catsVersion              = "2.6.1"
-  val catsEffectVersion        = "3.2.7"
+  val catsEffectVersion        = "3.2.8"
   val catsEffectTestVersion    = "1.3.0"
-  val catsEffectTestkitVersion = "3.2.7"
+  val catsEffectTestkitVersion = "3.2.8"
   val catsMtlVersion           = "1.2.1"
   val circeVersion             = "0.14.1"
   val doobieVersion            = "1.0.0-M5"
   val flywayVersion            = "7.14.1"
-  val http4sVersion            = "1.0.0-M24"
+  val http4sVersion            = "1.0.0-M27"
   val jwtCirceVersion          = "9.0.1"
   val logbackVersion           = "1.2.6"
   val scalaBcryptVersion       = "4.3.0"

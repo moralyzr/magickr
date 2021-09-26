@@ -65,13 +65,14 @@ class UserRepository[F[_] : Async](val xa: Transactor[F]) extends FindUser[F]
       .map(id => user.copy(Some(id)))
       .transact(xa)
 
-  override def update(user: User): OptionT[F, User] = OptionT(for {
-    result <- UserSql.updateUser(user).run.transact(xa)
-    updatedUser <- result match {
-      case 1 => user.id.fold(OptionT.none.value)(withId(_).value)
-      case _ => OptionT.none.value
-    }
-  } yield (updatedUser)
+  override def update(user: User): OptionT[F, User] = OptionT(
+    for {
+      result <- UserSql.updateUser(user).run.transact(xa)
+      updatedUser <- result match {
+        case 1 => user.id.fold(OptionT.none.value)(withId(_).value)
+        case _ => OptionT.none.value
+      }
+    } yield (updatedUser)
   )
 
 object UserRepository:

@@ -13,7 +13,8 @@ import org.scalatest.matchers.should.Matchers
 
 import java.time.LocalDate
 
-class UserRepositoryTest extends AnyFlatSpec with Matchers {
+class UserRepositoryTest extends AnyFlatSpec
+                         with Matchers {
   behavior of "An User Repository"
 
   val databaseHelper = DatabaseTestConnectionHelper.buildTransactor()
@@ -22,7 +23,7 @@ class UserRepositoryTest extends AnyFlatSpec with Matchers {
     val queryResult = databaseHelper
       .use { tx =>
         val userRepository = UserRepository[IO](tx)
-        val result = userRepository.withEmail(EmailType.fromString("a@a.com"))
+        val result         = userRepository.withEmail(EmailType.fromString("a@a.com"))
         result.value
       }
       .unsafeRunSync()

@@ -18,10 +18,17 @@ class AdventurerBarracks[F[_] : Async](
   private val adventurerValidationAlgebra: AdventurerValidationAlgebra[F],
   private val userValidationAlgebra      : UserValidationAlgebra[F],
 ):
-  def recruit(command: RecruitNewAdventurerCommand) = for {
-    _ <- userValidationAlgebra.shouldExist(command.userId)
-    _ <- adventurerValidationAlgebra.doesNotExistForUser(command.userId)
-    adventurerToCreate = AdventurerMapper.fromRecruitCommand(command)
+  def recruit(userId: Long, command: RecruitNewAdventurerCommand) = for {
+    _ <- userValidationAlgebra.shouldExist(userId)
+    _ <- adventurerValidationAlgebra.doesNotExistForUser(userId)
+    adventurerToCreate = AdventurerMapper.fromRecruitCommand(userId, command)
     persistedAdventurer <- EitherT.liftF(persistAdventurer.save(adventurerToCreate))
   } yield persistedAdventurer
 
+object AdventurerBarracks:
+  def apply[F[_] : Async](
+    findAdventurer             : FindAdventurer[F],
+    persistAdventurer          : PersistAdventurer[F],
+    adventurerValidationAlgebra: AdventurerValidationAlgebra[F],
+    userValidationAlgebra      : UserValidationAlgebra[F],
+  ) = new AdventurerBarracks[F](findAdventurer, persistAdventurer, adventurerValidationAlgebra, userValidationAlgebra)

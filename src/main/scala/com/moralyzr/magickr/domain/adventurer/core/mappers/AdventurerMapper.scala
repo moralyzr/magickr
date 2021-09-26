@@ -4,4 +4,11 @@ import com.moralyzr.magickr.domain.adventurer.core.commands.RecruitNewAdventurer
 import com.moralyzr.magickr.domain.adventurer.core.models.Adventurer
 
 object AdventurerMapper:
-  def fromRecruitCommand(command: RecruitNewAdventurerCommand): Adventurer = ???
+  def fromRecruitCommand(userId: Long, command: RecruitNewAdventurerCommand): Adventurer = new Adventurer(
+    userId = userId,
+    name = command.name,
+    title = command.title,
+    avatar = command.avatar.getOrElse("/img/avatar/default.png"),
+    level = 1,
+    currentExperience = 1L,
+  )

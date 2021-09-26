@@ -17,6 +17,9 @@ import com.moralyzr.magickr.infrastructure.http.HttpConfig
 import org.http4s.implicits.*
 import cats.implicits.*
 import cats.effect.implicits.*
+import com.moralyzr.magickr.domain.adventurer.adapters.output.databases.sql.AdventurerRepository
+import com.moralyzr.magickr.domain.adventurer.core.validations.interpreters.AdventurerValidationInterpreter
+import com.moralyzr.magickr.domain.adventurer.core.AdventurerBarracks
 import com.moralyzr.magickr.domain.security.adapters.input.rest.SecurityApi
 import com.moralyzr.magickr.domain.security.adapters.output.databases.postgres.UserRepository
 import com.moralyzr.magickr.domain.security.adapters.output.security.internal.{InternalAuthentication, JwtBuilder}
@@ -44,19 +47,27 @@ object Magickr extends IOApp :
       )
       transactor <- DatabaseConnection.makeTransactor[IO](databaseConfigs)
       userRepository = UserRepository[IO](transactor)
-      // Interpreters
+      adventurerRepository = AdventurerRepository[IO](transactor)
+      // Validators
+      userValidation = UserValidationInterpreter[IO](userRepository)
+      adventurerValidation = AdventurerValidationInterpreter[IO](adventurerRepository)
+      // Services
       jwtManager = JwtBuilder[IO](jwtConfig)
       authentication = InternalAuthentication[IO](
         passwordValidationAlgebra = new PasswordValidationInterpreter(),
-        jwtManager = jwtManager
+        jwtManager = jwtManager,
       )
-      userValidation = UserValidationInterpreter[IO](userRepository)
-      // Services
       securityManagement = SecurityManagement[IO](
         findUser = userRepository,
         persistUser = userRepository,
         authentication = authentication,
-        userValidationAlgebra = userValidation
+        userValidationAlgebra = userValidation,
+      )
+      adventurerBarracks = AdventurerBarracks[IO](
+        findAdventurer = adventurerRepository,
+        persistAdventurer = adventurerRepository,
+        adventurerValidationAlgebra = adventurerValidation,
+        userValidationAlgebra = userValidation,
       )
       // Api
       httpRoutes = Router(
