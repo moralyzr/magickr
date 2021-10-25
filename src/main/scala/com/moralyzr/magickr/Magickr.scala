@@ -33,8 +33,6 @@ object Magickr extends IOApp :
 
   override def run(args: List[String]): IO[ExitCode] =
     val server = for {
-      // ThreadPools
-      serverEc <- ExecutionContexts.cachedThreadPool[IO]
       // Configs
       configs <- Resource.eval(MagickrConfigs.makeConfigs[IO]())
       httpConfigs = HttpConfig[IO](configs)
@@ -74,7 +72,7 @@ object Magickr extends IOApp :
         "/api/user" -> SecurityApi.endpoints[IO](securityManagement)
       ).orNotFound
       // Blaze Server
-      server <- BlazeServerBuilder[IO](serverEc)
+      server <- BlazeServerBuilder[IO]
         .bindHttp(httpConfigs.port, httpConfigs.host)
         .withHttpApp(httpRoutes)
         .resource

@@ -12,5 +12,5 @@ case class User(
   val email    : Email,
   val password : Password,
   val active   : Boolean,
-  val birthDate: LocalDate
+  val birthDate: LocalDate,
 )

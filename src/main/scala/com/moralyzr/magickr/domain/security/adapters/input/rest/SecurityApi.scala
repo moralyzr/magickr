@@ -2,23 +2,20 @@ package com.moralyzr.magickr.domain.security.adapters.input.rest
 
 import cats.data.EitherT
 import cats.effect.kernel.Async
-import com.moralyzr.magickr.domain.security.core.ports.incoming.{LoginUserByCredentials, LoginUserByCredentialsCommand,
-  RegisterUserWithCredentials, RegisterUserWithCredentialsCommand}
-import com.moralyzr.magickr.domain.security.core.types.TokenType.Token
-import org.http4s.{EntityDecoder, HttpRoutes}
-import org.http4s.dsl.Http4sDsl
-import org.http4s.Status
-import org.http4s.circe.CirceEntityCodec.*
-import io.circe.generic.auto.*
 import cats.implicits.*
 import com.moralyzr.magickr.domain.security.adapters.input.rest.marshallers.SecurityProtocols
+import com.moralyzr.magickr.domain.security.core.types.TokenType.Token
 import com.moralyzr.magickr.domain.security.core.SecurityManagement
-import com.moralyzr.magickr.domain.security.core.errors.{AuthError, InvalidCredentials, InvalidToken, 
+import com.moralyzr.magickr.domain.security.core.errors.{AuthError, InvalidCredentials, InvalidToken,
   UserAlreadyExists, UserNotFound}
 import com.moralyzr.magickr.domain.security.core.models.User
 import com.moralyzr.magickr.domain.security.core.ports.incoming.{LoginUserByCredentials,
   LoginUserByCredentialsCommand, RegisterUserWithCredentials, RegisterUserWithCredentialsCommand}
 import com.moralyzr.magickr.domain.security.core.types.EmailType
+import io.circe.generic.auto.*
+import org.http4s.dsl.Http4sDsl
+import org.http4s.{EntityDecoder, HttpRoutes, Status}
+import org.http4s.circe.CirceEntityCodec.*
 
 class SecurityApi[F[_] : Async](
   private val securityManagement: SecurityManagement[F]

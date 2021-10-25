@@ -2,7 +2,6 @@ package com.moralyzr.magickr.domain.security.fixtures
 
 import com.moralyzr.magickr.domain.security.core.models.User
 import com.moralyzr.magickr.domain.security.core.types.{EmailType, PasswordType}
-import com.moralyzr.magickr.domain.security.core.types.EmailType
 import faker.Faker
 
 object UserFixtures {
@@ -13,7 +12,7 @@ object UserFixtures {
     email = EmailType.fromString(Faker.default.emailAddress()),
     password = PasswordType.fromString(Faker.default.password()),
     active = false,
-    birthDate = Faker.default.pastLocalDateTime().toLocalDate
+    birthDate = Faker.default.pastLocalDateTime().toLocalDate,
   )
 
 }

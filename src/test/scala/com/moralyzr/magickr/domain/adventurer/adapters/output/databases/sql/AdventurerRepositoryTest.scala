@@ -8,6 +8,7 @@ import cats.effect.IO
 import com.moralyzr.magickr.domain.adventurer.fixtures.AdventurerFixture
 import com.moralyzr.magickr.domain.security.adapters.output.databases.postgres.UserRepository
 import com.moralyzr.magickr.domain.security.fixtures.UserFixtures
+import cats.effect.kernel.Resource
 
 class AdventurerRepositoryTest extends AnyFlatSpec
                                with Matchers {
@@ -40,33 +41,38 @@ class AdventurerRepositoryTest extends AnyFlatSpec
   }
 
   it should "an existing adventurer should be fetched" in {
-    val queryResult = databaseHelper
-      .use { tx =>
-        val adventurerRepository = AdventurerRepository[IO](tx)
-        val userRepository       = UserRepository[IO](tx)
-        val createdUser          = userRepository.save(UserFixtures.user)
-        val createdAdventurer    = adventurerRepository.save(AdventurerFixture.adventurer)
-        val result               = adventurerRepository.withId(1L)
-        result.value
-      }
-      .unsafeRunSync()
+    val existingUser = UserFixtures.user
+    val expectedAdventurer = AdventurerFixture.adventurer
 
-    queryResult.isEmpty shouldBe true
+    val theAdventurer = (for {
+      tx <- databaseHelper
+      userRepository = UserRepository[IO](tx)
+      adventurerRepository = AdventurerRepository[IO](tx)
+      savedUser <- Resource.eval(userRepository.save(existingUser))
+      userId = savedUser.id.getOrElse(-1L)
+      savedAdventurer <- Resource.eval(adventurerRepository.save(expectedAdventurer.copy(userId = userId)))
+      savedAdventurerId = savedAdventurer.id.getOrElse(-1L)
+      foundAdventurer = adventurerRepository.withId(savedAdventurerId)
+    } yield foundAdventurer).use(_.value).unsafeRunSync()
+
+    theAdventurer.isEmpty shouldBe false
   }
 
   it should "an existing adventurer should be fetched by the UserId" in {
-    val queryResult = databaseHelper
-      .use { tx =>
-        val adventurerRepository = AdventurerRepository[IO](tx)
-        val userRepository       = UserRepository[IO](tx)
-        val createdUser          = userRepository.save(UserFixtures.user)
-        val createdAdventurer    = adventurerRepository.save(AdventurerFixture.adventurer)
-        val result               = adventurerRepository.forUser(1L)
-        result.value
-      }
-      .unsafeRunSync()
+    val existingUser = UserFixtures.user
+    val expectedAdventurer = AdventurerFixture.adventurer
 
-    queryResult.isEmpty shouldBe true
+    val theAdventurer = (for {
+      tx <- databaseHelper
+      userRepository = UserRepository[IO](tx)
+      adventurerRepository = AdventurerRepository[IO](tx)
+      savedUser <- Resource.eval(userRepository.save(existingUser))
+      userId = savedUser.id.getOrElse(-1L)
+      savedAdventurer <- Resource.eval(adventurerRepository.save(expectedAdventurer.copy(userId = userId)))
+      foundAdventurer = adventurerRepository.forUser(userId)
+    } yield foundAdventurer).use(_.value).unsafeRunSync()
+
+    theAdventurer.isEmpty shouldBe false
   }
 
 }

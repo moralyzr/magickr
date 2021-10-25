@@ -2,17 +2,16 @@ package com.moralyzr.magickr.domain.adventurer.adapters.output.databases.sql
 
 import cats.data.OptionT
 import cats.effect.kernel.Async
+import cats.implicits.*
 import com.moralyzr.magickr.domain.adventurer.core.models.Adventurer
 import com.moralyzr.magickr.domain.adventurer.core.ports.outgoing.{FindAdventurer, PersistAdventurer}
 import doobie.free.connection.ConnectionIO
 import doobie.implicits.{toConnectionIOOps, toSqlInterpolator}
+import doobie.postgres.implicits.*
 import doobie.util.log.LogHandler
 import doobie.util.query.Query0
 import doobie.util.transactor.Transactor
 import doobie.util.update.Update0
-
-import doobie.postgres.implicits.*
-import cats.implicits.*
 
 private object AdventurerSql:
   def findWithId(id: Long): Query0[Adventurer] =
@@ -26,9 +25,10 @@ private object AdventurerSql:
        """.query
 
   def save(adventurer: Adventurer): Update0 = sql"""
-     INSERT INTO Adventurers (userId, avatar, name, title, level, current_experience)
+     INSERT INTO Adventurers (id, userId, avatar, name, title, level, currentExperience)
      VALUES (
          ${adventurer.id},
+         ${adventurer.userId},
          ${adventurer.avatar},
          ${adventurer.name},
          ${adventurer.title},
@@ -43,7 +43,7 @@ private object AdventurerSql:
         name   = ${adventurer.name},
         title  = ${adventurer.title},
         level  = ${adventurer.level},
-        current_experience = ${adventurer.currentExperience}
+        currentExperience = ${adventurer.currentExperience}
       WHERE
         id = ${adventurer.id}
                                                    """.update

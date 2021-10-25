@@ -17,3 +17,10 @@ case class AdventurerAlreadyExists(
   title  : String = "Adventurer Already Exists",
   message: String = "The informed adventurer already exists!",
 ) extends AdventurerError
+
+case class FailedToUpdateAdventurer(
+  url    : String = "/problem/adventurer/failed-update",
+  code   : String = "FAILED_TO_UPDATE_ADVENTURER",
+  title  : String = "Update failed",
+  message: String = "The informed adventurer already exists!",
+) extends AdventurerError
