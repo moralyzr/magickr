@@ -3,7 +3,7 @@ enablePlugins(JavaAppPackaging)
 name := "magickr"
 organization := "com.moralyzr"
 version := "0.0.1"
-scalaVersion := "3.0.2"
+scalaVersion := "3.1.0"
 
 scalacOptions := Seq("-unchecked", "-deprecation")
 
