@@ -38,7 +38,7 @@ private object AdventurerSql:
                                                  """.update
 
   def update(adventurer: Adventurer): Update0 = sql"""
-     UPDATE Adventurer SET
+     UPDATE Adventurers SET
         avatar = ${adventurer.avatar},
         name   = ${adventurer.name},
         title  = ${adventurer.title},
