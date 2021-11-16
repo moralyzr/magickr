@@ -17,9 +17,9 @@ import com.moralyzr.magickr.infrastructure.http.HttpConfig
 import org.http4s.implicits.*
 import cats.implicits.*
 import cats.effect.implicits.*
-import com.moralyzr.magickr.domain.adventurer.adapters.output.databases.sql.AdventurerRepository
-import com.moralyzr.magickr.domain.adventurer.core.validations.interpreters.AdventurerValidationInterpreter
-import com.moralyzr.magickr.domain.adventurer.core.AdventurerBarracks
+import com.moralyzr.magickr.domain.adventurer.recruitment.adapters.output.databases.sql.AdventurerRepository
+import com.moralyzr.magickr.domain.adventurer.recruitment.core.validations.interpreters.AdventurerValidationInterpreter
+import com.moralyzr.magickr.domain.adventurer.recruitment.core.AdventurerBarracks
 import com.moralyzr.magickr.domain.security.adapters.input.rest.SecurityApi
 import com.moralyzr.magickr.domain.security.adapters.output.databases.postgres.UserRepository
 import com.moralyzr.magickr.domain.security.adapters.output.security.internal.{InternalAuthentication, JwtBuilder}
