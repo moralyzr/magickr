@@ -11,13 +11,9 @@ CREATE TABLE Users
 
 CREATE TABLE Adventurers
 (
-    id                BIGSERIAL PRIMARY KEY,
-    userId            BIGINT       NOT NULL,
-    avatar            VARCHAR(255) NOT NULL,
-    name              VARCHAR(25)  NOT NULL,
-    title             VARCHAR(25),
-    level             SMALLINT     NOT NULL,
-    currentExperience INTEGER      NOT NULL,
-
-    CONSTRAINT fk_user FOREIGN KEY (userId) REFERENCES Users (id) ON DELETE CASCADE
+    id     BIGSERIAL PRIMARY KEY,
+    userId BIGINT       NOT NULL,
+    avatar VARCHAR(255) NOT NULL,
+    name   VARCHAR(25)  NOT NULL,
+    title  VARCHAR(25)
 );

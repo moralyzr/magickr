@@ -22,14 +22,20 @@ import com.moralyzr.magickr.domain.adventurer.recruitment.core.validations.inter
 import com.moralyzr.magickr.domain.adventurer.recruitment.core.AdventurerBarracks
 import com.moralyzr.magickr.domain.security.adapters.input.rest.SecurityApi
 import com.moralyzr.magickr.domain.security.adapters.output.databases.postgres.UserRepository
-import com.moralyzr.magickr.domain.security.adapters.output.security.internal.{InternalAuthentication, JwtBuilder}
+import com.moralyzr.magickr.domain.security.adapters.output.security.internal.{
+  InternalAuthentication,
+  JwtBuilder,
+}
 import com.moralyzr.magickr.domain.security.core.types.JwtConfig
 import com.moralyzr.magickr.domain.security.core.SecurityManagement
-import com.moralyzr.magickr.domain.security.core.interpreters.{PasswordValidationInterpreter, UserValidationInterpreter}
+import com.moralyzr.magickr.domain.security.core.interpreters.{
+  PasswordValidationInterpreter,
+  UserValidationInterpreter,
+}
 
 import java.security.Security
 
-object Magickr extends IOApp :
+object Magickr extends IOApp:
 
   override def run(args: List[String]): IO[ExitCode] =
     val server = for {
@@ -40,9 +46,7 @@ object Magickr extends IOApp :
       flywayConfigs = FlywayConfig[IO](configs)
       jwtConfig = JwtConfig[IO](configs)
       // Database
-      _ <- Resource.eval(
-        DbMigrations.migrate[IO](flywayConfigs, databaseConfigs)
-      )
+      _ <- Resource.eval(DbMigrations.migrate[IO](flywayConfigs, databaseConfigs))
       transactor <- DatabaseConnection.makeTransactor[IO](databaseConfigs)
       userRepository = UserRepository[IO](transactor)
       adventurerRepository = AdventurerRepository[IO](transactor)
@@ -52,29 +56,27 @@ object Magickr extends IOApp :
       // Services
       jwtManager = JwtBuilder[IO](jwtConfig)
       authentication = InternalAuthentication[IO](
-        passwordValidationAlgebra = new PasswordValidationInterpreter(),
-        jwtManager = jwtManager,
-      )
+                         passwordValidationAlgebra = new PasswordValidationInterpreter(),
+                         jwtManager = jwtManager,
+                       )
       securityManagement = SecurityManagement[IO](
-        findUser = userRepository,
-        persistUser = userRepository,
-        authentication = authentication,
-        userValidationAlgebra = userValidation,
-      )
+                             findUser = userRepository,
+                             persistUser = userRepository,
+                             authentication = authentication,
+                             userValidationAlgebra = userValidation,
+                           )
       adventurerBarracks = AdventurerBarracks[IO](
-        findAdventurer = adventurerRepository,
-        persistAdventurer = adventurerRepository,
-        adventurerValidationAlgebra = adventurerValidation,
-        userValidationAlgebra = userValidation,
-      )
+                             findAdventurer = adventurerRepository,
+                             persistAdventurer = adventurerRepository,
+                             adventurerValidationAlgebra = adventurerValidation,
+                             userValidationAlgebra = userValidation,
+                           )
       // Api
-      httpRoutes = Router(
-        "/api/user" -> SecurityApi.endpoints[IO](securityManagement)
-      ).orNotFound
+      httpRoutes = Router("/api/user" -> SecurityApi.endpoints[IO](securityManagement)).orNotFound
       // Blaze Server
       server <- BlazeServerBuilder[IO]
-        .bindHttp(httpConfigs.port, httpConfigs.host)
-        .withHttpApp(httpRoutes)
-        .resource
-    } yield (server)
-    return server.use(_ => IO.never).as(ExitCode.Success)
+                  .bindHttp(httpConfigs.port, httpConfigs.host)
+                  .withHttpApp(httpRoutes)
+                  .resource
+    } yield server
+    server.use(_ => IO.never).as(ExitCode.Success)

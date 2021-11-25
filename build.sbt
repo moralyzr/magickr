@@ -14,11 +14,11 @@ libraryDependencies ++= {
   val catsEffectTestkitVersion = "3.2.8"
   val catsMtlVersion           = "1.2.1"
   val circeVersion             = "0.14.1"
-  val doobieVersion            = "1.0.0-M5"
-  val flywayVersion            = "8.0.0"
+  val doobieVersion            = "1.0.0-RC1"
+  val flywayVersion            = "8.0.2"
   val http4sVersion            = "1.0.0-M29"
   val jwtCirceVersion          = "9.0.2"
-  val logbackVersion           = "1.2.6"
+  val logbackVersion           = "1.2.7"
   val scalaBcryptVersion       = "4.3.0"
   val scalaTestVersion         = "3.2.9"
   val scalaLoggingVersion      = "3.9.4"
@@ -46,18 +46,16 @@ libraryDependencies ++= {
     "org.ekrich" %% "sconfig" % sconfigVersion,
     "org.scalactic" %% "scalactic" % scalaTestVersion,
     "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
+    "org.scalacheck" %% "scalacheck" % "1.15.4" % Test,
+    "org.scalatestplus" %% "scalacheck-1-15" % "3.2.10.0" % Test,
     "org.typelevel" %% "cats-effect-testing-scalatest" % catsEffectTestVersion % Test,
     "org.typelevel" %% "cats-effect-testkit" % catsEffectTestkitVersion % Test,
-    "org.scalacheck" %% "scalacheck" % "1.15.4" % Test,
-    "org.tpolecat" %% "doobie-h2" % doobieVersion % Test
+    "org.tpolecat" %% "doobie-h2" % doobieVersion % Test,
+    "org.tpolecat" %% "doobie-scalatest" % doobieVersion % Test,
   ) ++ Seq(
     "com.github.t3hnar" %% "scala-bcrypt" % scalaBcryptVersion,
     "io.github.etspaceman" %% "scalacheck-faker" % "7.0.0" % Test
   ).map(_.cross(CrossVersion.for3Use2_13))
 }
-
-//Compile / guardrailTasks := List(
-//  ScalaServer(file("src/main/resources/api.yaml"), pkg="com.moralyzr.magickr.adapters.gen", tracing=true)
-//)
 
 Revolver.settings

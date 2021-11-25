@@ -42,10 +42,10 @@ trait SecurityProtocols[F[_] : Async]:
   given invalidTokenEncoder: Encoder[InvalidToken] = deriveEncoder
 
   given authErrorEncoder: Encoder[AuthError] = Encoder.instance {
-    case invalidToken@InvalidToken(_, _, _, _)             => invalidTokenEncoder.apply(invalidToken)
-    case invalidCredentials@InvalidCredentials(_, _, _, _) => invalidCredentialsEncoder.apply(invalidCredentials)
-    case userNotFound@UserNotFound(_, _, _, _)             => userNotFoundEncoder.apply(userNotFound)
-    case userAlreadyExists@UserAlreadyExists(_, _, _, _)   => userAlreadyExistsEncoder.apply(userAlreadyExists)
+    case invalidToken@InvalidToken()             => invalidTokenEncoder.apply(invalidToken)
+    case invalidCredentials@InvalidCredentials() => invalidCredentialsEncoder.apply(invalidCredentials)
+    case userNotFound@UserNotFound()             => userNotFoundEncoder.apply(userNotFound)
+    case userAlreadyExists@UserAlreadyExists()   => userAlreadyExistsEncoder.apply(userAlreadyExists)
   }
 
   given loginUserByCredentialsEntityDecoder: EntityDecoder[F, LoginUserByCredentialsCommand] = jsonOf[F,

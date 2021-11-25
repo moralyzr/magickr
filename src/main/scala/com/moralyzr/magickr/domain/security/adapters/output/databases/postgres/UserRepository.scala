@@ -72,7 +72,7 @@ class UserRepository[F[_] : Async](val xa: Transactor[F]) extends FindUser[F]
         case 1 => user.id.fold(OptionT.none.value)(withId(_).value)
         case _ => OptionT.none.value
       }
-    } yield (updatedUser)
+    } yield updatedUser
   )
 
 object UserRepository:

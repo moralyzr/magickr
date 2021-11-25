@@ -7,6 +7,7 @@ import com.moralyzr.magickr.infrastructure.http.HttpConfig
 import com.typesafe.config.{Config, ConfigFactory}
 
 object MagickrConfigs:
-  def makeConfigs[F[_] : Sync]() = Sync[F].delay {
+
+  def makeConfigs[F[_]: Sync](): F[Config] = Sync[F].delay {
     ConfigFactory.load()
   }
